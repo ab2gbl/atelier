@@ -4,4 +4,10 @@ import router from './router'
 import store from './store'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-createApp(App).use(store).use(router).use(ElementPlus).mount('#app')
+import 'bootstrap/dist/css/bootstrap.css'
+import bootstrap from 'bootstrap/dist/js/bootstrap.js'
+
+
+
+createApp(App).use(store).use(router).use(ElementPlus).use(bootstrap).mount('#app')
+

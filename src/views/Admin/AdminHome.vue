@@ -1,28 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div>
+        <AdminNavBar  />
         <section class="header">
-            <nav>
-                <img src="../../assets/a.png" >
-                <div class="nav-links" id="navlinks">
-                    <i class="fa fa-times" onclick="hidemenu()"></i>
-                    <ul>
-                        <li><a href="">HOME</a></li> 
-                        <li><a href="#about">CHALLENGES</a></li> 
-                        <li><a href="#places">PATH</a></li> 
-                        <li><a href="#contact">ABOUT</a></li> 
-                        
-                        <li href="Login" @click="logout()">
-                            <router-link :to="{ name: 'Login' }"><span>LOGOUT</span></router-link>
-                        </li>
-                        
-                    </ul>
-                </div>
-            <i class="fa fa-bars" onclick="showmenu()"></i>
-            </nav>
-            <div class="icon">
-                <img class="im" src="../../assets/li.png" alt="">
-                </div>
+            
             <div class="text-box">
                 <h4>Experience the ultimate</h4>
                 <h1> I am  </h1>
@@ -35,6 +16,7 @@
 <script>
     import AOS from 'aos';
     import 'aos/dist/aos.css';
+    import AdminNavBar from '@/components/AdminNavBar.vue';
     export default {
         data() {
         return {
@@ -42,6 +24,21 @@
             password: '',
             scrollPosition: 0
             }
+        },
+        beforeCreate() {
+            if(this.$store.state.account.role!='admin'){
+                if(this.$store.state.account.role){
+                    this.$router.push('/'+this.$store.state.account.role+'home');}
+                else{
+                    this.$router.push('/login');}
+            }
+            AOS.init({
+                offset: 200,
+                duration: 2000,
+            });
+        },
+        components:{
+            AdminNavBar,
         },
         methods: {
             logout() {
@@ -78,21 +75,10 @@
         beforeUnmount() {
             window.removeEventListener('scroll', this.handleScroll);
         },
-        created() {
-            if(this.$store.state.account.role!='admin'){
-                if(this.$store.state.account.role){
-                    this.$router.push('/'+this.$store.state.account.role+'home');}
-                else{
-                    this.$router.push('/login');}
-            }
-            AOS.init({
-                offset: 200,
-                duration: 2000,
-            });
-        },
+        
     }
 </script>
-<style>
+<style scoped>
     @import url('https://unpkg.com/aos@next/dist/aos.css');
     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
     
@@ -121,10 +107,11 @@
         padding: 0.9%;
         justify-content: space-between;
         align-items: center;
+        background-color: #000f15;
     }
     nav img {
-        margin-top: 1px;
-        width: 200px;
+        margin-top: 5px;
+        width: 40px;
         cursor: pointer;
     
     }
@@ -135,12 +122,11 @@
         font-size: x-small;
         cursor: pointer;
         transition: 0.6s;
-        margin-top: -40px;
     }
     .nav-links ul li {
         list-style: none;
         display: inline-block;
-        padding: 20px 25px;
+        padding: 0 25px;
         position: relative;
     }
     .nav-links ul li a {
@@ -161,6 +147,41 @@
         width: 100%;
     
     }
+    nav .fa{
+        display: none;
+    }
+    @media(max-width: 700px){
+        .nav-links ul li {
+            display: block;
+        }
+       
+        .nav-links {
+            position: absolute;
+            background: #5fcbe198;
+            height: 100vh;
+            width: 200px;
+            top: 0;
+            right: -200px;
+            text-align: left;
+            z-index: 2;
+            transition: 1s;
+        }
+      
+        nav .fa {
+            display: block;
+            color: #fff;
+            margin: 10px;
+            font-size: 22px;
+            cursor: pointer;
+        }
+        .nav-links ul {
+        padding: 20px;
+        margin-bottom:0 ;
+        }
+    }
+    
+
+
     .icon {
         margin-top: 100px;
         position: relative;
@@ -245,32 +266,7 @@
         .text-box h1 {
             font-size: 20px;
         }
-        .nav-links ul li {
-            display: block;
-        }
-       
-        .nav-links {
-            position: absolute;
-            background: #5fcbe198;
-            height: 100vh;
-            width: 200px;
-            top: 0;
-            right: -200px;
-            text-align: left;
-            z-index: 2;
-            transition: 1s;
-        }
-      
-        nav .fa {
-            display: block;
-            color: #fff;
-            margin: 10px;
-            font-size: 22px;
-            cursor: pointer;
-        }
-        .nav-links ul {
-        padding: 20px;
-        }
+        
     }
     
     .course {

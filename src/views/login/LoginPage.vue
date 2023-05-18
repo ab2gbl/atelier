@@ -18,7 +18,7 @@
           <input type="password" id="password" v-model="password" placeholder="Enter your password">
         </div>
         <el-link class="forget" href="forget" type="primary" @click="forget">
-          <router-link :to="{ name: 'Forget' }"></router-link>Forgot Password
+          <router-link :to="{ name: 'Forget' }">Forgot Password</router-link>
         </el-link>
         <button type="submit">Login</button>
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
@@ -88,117 +88,119 @@ export default {
 };
 </script>
   
-  <style>
-  .login-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 90vh;
-  }
-  
-  .video-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-  }
-  
-  .video-wrapper video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .form-wrapper {
-    width: 400px;
-    padding: 40px;
-    
-    background-color: #fff;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .form-wrapper h3 {
-    font-size: 12px;
-    margin-bottom: 30px;
-  }
-  
-  .form-wrapper h3 a {
-    color: #0062cc;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-    text-align: left;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  button[type="submit"] {
-    display: block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  .error-message {
-  color: #ff5050;
-  background-color: #ffe6e6;
-  border: 1px solid #ff5050;
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 10px;
+<style>
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
 }
-  .forget {
-    color:red;
-    font-size: 13px;
-  }
-  
-  .el-link {
-  margin-right: 300px;
-  }
-  
-  .el-link .el-icon--right.el-icon {
-  vertical-align: text-bottom;
-  }
-  
-  button[type="submit"]:hover {
-  background-color: #0062cc;
-  }
-  .image-wrapper {
-  position: relative;
-  width: 400px;
-  height: 400px;
-  }
-  
-  .image-wrapper img {
+
+.video-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.video-wrapper video {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -1;
-  }
-  </style>
+}
+
+.form-wrapper {
+  width: 400px;
+  padding: 40px;
+  
+  background-color: #fff;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.form-wrapper h3 {
+  font-size: 12px;
+  margin-bottom: 30px;
+}
+
+.form-wrapper h3 a {
+  color: #0062cc;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button[type="submit"] {
+  display: block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.error-message {
+color: #ff5050;
+background-color: #ffe6e6;
+border: 1px solid #ff5050;
+padding: 10px;
+border-radius: 5px;
+margin-top: 10px;
+}
+.forget {
+  color:red;
+  font-size: 13px;
+}
+
+.el-link {
+/* margin-right: 300px; */
+}
+
+.el-link .el-icon--right.el-icon {
+vertical-align: text-bottom;
+}
+
+button[type="submit"]:hover {
+background-color: #0062cc;
+}
+.image-wrapper {
+position: relative;
+width: 400px;
+height: 400px;
+}
+
+.image-wrapper img {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: -1;
+}
+</style>
+
+
   
   

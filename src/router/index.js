@@ -36,11 +36,26 @@ const routes = [
     name: 'verification',
     props: true,
     component: () => import('../views/login/VerificationOtp.vue'),
-  }, {
+  }, 
+  
+  // admin
+  {
     path: '/adminhome',
     name: 'AdminHome',
     component: () => import('../views/Admin/AdminHome.vue')
   },
+  {
+    path: '/schedule',
+    name: 'Schedule',
+    component: () => import('../views/Admin/PlanifyCalendar.vue')
+  },
+  {
+    path: '/schedule/challenges',
+    name: 'PlanifyChallenge',
+    component: () => import('../views/Admin/PlanifyChallenge.vue')
+  },
+
+  // developer
   {
     path: '/developerhome',
     name: 'DeveloperHome',
