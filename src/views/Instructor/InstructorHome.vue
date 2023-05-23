@@ -82,7 +82,7 @@
         created() {
             if(this.$store.state.account.role!='instructor'){
                 if(this.$store.state.account.role){
-                    this.$router.push('/'+this.$store.state.account.role+'home');}
+                    this.$router.push('/'+this.$store.state.account.role+'/home');}
                 else{
                     this.$router.push('/login');}
             }
@@ -93,7 +93,7 @@
         },
     }
 </script>
-<style>
+<style scoped>
     @import url('https://unpkg.com/aos@next/dist/aos.css');
     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
     

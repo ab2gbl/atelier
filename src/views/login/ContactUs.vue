@@ -1,5 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
+<div>
     <div class="contact-section">
     <h1>CONTACT US</h1>
     <br>
@@ -24,9 +25,10 @@
         </div>
 <p> &copy; designed by | MOHAMED AMINE TOUATI</p>
 </section>
+</div>
 </template>
 
-<style>
+<style scoped>
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"    );
 * {
     margin: 0;

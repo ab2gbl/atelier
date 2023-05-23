@@ -3,7 +3,7 @@
     <div>
         <section class="header">
             <nav>
-                <img src="../../assets/a.png" >
+                <img src="@/assets/a.png" >
                 <div class="nav-links" id="navlinks">
                     <i class="fa fa-times" onclick="hidemenu()"></i>
                     <ul>
@@ -21,7 +21,7 @@
             <i class="fa fa-bars" onclick="showmenu()"></i>
             </nav>
             <div class="icon">
-                <img class="im" src="../../assets/li.png" alt="">
+                <img class="im" src="@/assets/li.png" alt="">
                 </div>
             <div class="text-box">
                 <h4>Experience the ultimate</h4>
@@ -81,7 +81,7 @@
         created() {
             if(this.$store.state.account.role!='company'){
                 if(this.$store.state.account.role){
-                    this.$router.push('/'+this.$store.state.account.role+'home');}
+                    this.$router.push('/'+this.$store.state.account.role+'/home');}
                 else{
                     this.$router.push('/login');}
             }
@@ -92,7 +92,7 @@
         },
     }
 </script>
-<style>
+<style scoped>
     @import url('https://unpkg.com/aos@next/dist/aos.css');
     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
     
@@ -108,7 +108,7 @@
     .header {
     min-height: 100vh;
     width: 100%;
-    background-image:  url(../../assets/774373.jpg);
+    background-image:  url(@/assets/774373.jpg);
     background-position: center;
     background-size: cover;
     position: relative;
@@ -415,7 +415,7 @@
         margin:100px auto;
         width: 80%;
         background-image:
-        url(../../assets/774373.jpg);
+        url(@/assets/774373.jpg);
     
         background-size: cover;
         border-radius: 10px;

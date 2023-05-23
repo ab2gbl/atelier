@@ -43,7 +43,7 @@
       </div>
     </div>
     <div style="text-align: center;">
-      <router-link id="planify-new-challenge" class="btn btn-primary" to="/schedule">schedule</router-link> 
+      <router-link id="planify-new-challenge" class="btn btn-primary" to="/admin/schedule">schedule</router-link> 
       <router-view/>
     </div>
   </div>
@@ -60,7 +60,7 @@ export default {
     this.$store.dispatch('GetNonPlanfiedchallenges');
     if(this.$store.state.account.role!='admin'){
     if(this.$store.state.account.role){
-      this.$router.push('/'+this.$store.state.account.role+'home');}
+      this.$router.push('/'+this.$store.state.account.role+'/home');}
     else{
       this.$router.push('/login');}
     }

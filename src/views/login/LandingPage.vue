@@ -192,7 +192,7 @@
 },
   }
 </script>
-    <style>
+    <style scoped>
     @import url('https://unpkg.com/aos@next/dist/aos.css');
     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
     

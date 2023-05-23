@@ -50,7 +50,7 @@ export default {
 };
 </script>
 
-  <style>
+  <style scoped>
   .email-verification-page {
     display: flex;
     justify-content: center;

@@ -63,7 +63,7 @@ export default {
           if (data.is_verified) {
             this.$store.state.account=data
             sessionStorage.setItem('account', JSON.stringify(this.$store.state.account));
-            this.$router.push('/'+this.$store.state.account.role+'home');
+            this.$router.push('/'+this.$store.state.account.role+'/home');
             
             //this.$router.push('/landing');
           } else{
@@ -88,7 +88,7 @@ export default {
 };
 </script>
   
-<style>
+<style scoped>
 .login-page {
   display: flex;
   justify-content: center;

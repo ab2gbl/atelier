@@ -28,7 +28,7 @@
         beforeCreate() {
             if(this.$store.state.account.role!='admin'){
                 if(this.$store.state.account.role){
-                    this.$router.push('/'+this.$store.state.account.role+'home');}
+                    this.$router.push('/'+this.$store.state.account.role+'/home');}
                 else{
                     this.$router.push('/login');}
             }

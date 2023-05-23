@@ -37,38 +37,98 @@ const routes = [
     props: true,
     component: () => import('../views/login/VerificationOtp.vue'),
   }, 
-  
+
+
+
+  {
+    path: '/schedule',
+    name: 'Schedule',
+    component: () => import('../views/ScheduleCalendar.vue')
+  },
+  {
+    path: '/paths',
+    name: 'Paths',
+    component: () => import('../views/PathsPage.vue')
+  },
+  {
+    path: '/paths/:id',
+    name: 'GamifiedCourses',
+    component: () => import('../views/GamifiedCourses.vue')
+  },
   // admin
   {
-    path: '/adminhome',
+    path: '/admin/home',
     name: 'AdminHome',
     component: () => import('../views/Admin/AdminHome.vue')
   },
   {
-    path: '/schedule',
-    name: 'Schedule',
+    path: '/admin/createpath',
+    name: 'CreatePath',
+    component: () => import('../views/Admin/CreatePath.vue')
+  },
+  {
+    path: '/admin/schedule',
+    name: 'AdminSchedule',
     component: () => import('../views/Admin/PlanifyCalendar.vue')
   },
   {
-    path: '/schedule/challenges',
+    path: '/admin/schedule/challenges',
     name: 'PlanifyChallenge',
     component: () => import('../views/Admin/PlanifyChallenge.vue')
   },
 
   // developer
   {
-    path: '/developerhome',
+    path: '/developer/home',
     name: 'DeveloperHome',
     component: () => import('../views/Developer/DeveloperHome.vue')
   },
+  
   {
-    path: '/companyhome',
+    path: '/developer/schedule',
+    redirect: '/schedule'
+  },
+  // company
+  {
+    path: '/company/home',
     name: 'CompanyHome',
     component: () => import('../views/Company/CompanyHome.vue')
-  },{
-    path: '/instructorhome',
+  },
+  {
+    path: '/company/schedule',
+    redirect: '/schedule'
+  },
+  //instructor
+  {
+    path: '/instructor/home',
     name: 'InstructorHome',
     component: () => import('../views/Instructor/InstructorHome.vue')
+  },
+  {
+    path: '/instructor/challenges',
+    name: 'InstructorChallenges',
+    component: () => import('../views/Instructor/ChallengesPage.vue')
+  },
+  {
+    path: '/instructor/form',
+    name: 'Form',
+    component: () => import('../views/Instructor/Challenge/FormPage.vue')
+  },
+  {
+    path: '/instructor/tasks/:challengeId',
+    name: 'tasks',
+    component: () => import('../views/Instructor/Challenge/TaskForm.vue')
+  }
+  ,
+  {
+    path: '/instructor/task-page/:challengeId/:taskId',
+    name: 'task-page',
+    component: () => import('../views/Instructor/Challenge/TaskPage.vue'),
+    props: true
+  },
+  {
+    path: '/instructor/schedule',
+    redirect: '/schedule'
   },
   
 ]
