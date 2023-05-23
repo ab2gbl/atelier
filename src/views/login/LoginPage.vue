@@ -44,7 +44,7 @@ export default {
   },
   beforeCreate(){
     if (this.$store.state.account.role!=null){
-      this.$router.push('/'+this.$store.state.account.role+'home');
+      this.$router.push('/'+this.$store.state.account.role+'/home');
     }
   },
   methods: {

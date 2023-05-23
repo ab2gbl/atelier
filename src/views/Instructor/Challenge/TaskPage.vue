@@ -19,7 +19,6 @@
         <label :for="field.id" class="label">{{ field.label }}:</label>
         <template v-if="field.type === 'image'">
           <input type="file" :id="field.id" :name="field.id" @change="onFileSelected($event, index)" class="file-input">
-          
         </template>
         <template v-else>
           <input type="text" :id="field.id" :name="field.id" v-model="field.value" class="input">
@@ -36,8 +35,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      title: '',
-      description: '',
+      title: [],
       type: '',
       fields: [],
       fieldId: 0,
