@@ -21,7 +21,7 @@
           <div class="content">
             <!-- <router-link :to="{ name: 'Login' }"></router-link> -->
             <router-link :to="{ name: 'GamifiedCourses', params: { id: path.id } }"><h2>{{ path.name  }}</h2></router-link>
-            <p>Start your learning journey here and master the basics</p>
+            <p>{{ path.descreption  }}</p>
             <a href="#" class="learn-more">Learn More</a>
           </div>
         </div>

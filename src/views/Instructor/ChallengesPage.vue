@@ -39,25 +39,26 @@
 
 <script>
 export default {
+  
   data() {
     return {
-      forms: [],
     };
   },
-  mounted() {
-    const forms = JSON.parse(localStorage.getItem('forms'));
-    if (forms) {
-      this.forms = forms;
-    }
-    console.log(this.$store.state.taskIdGlobal)
+  computed: {
+    forms() {
+      return this.$store.state.NonPlanfiedchallenges;
+    },
   },
+  beforeMount() {
+    this.$store.dispatch('GetNonPlanfiedchallenges');
+  },
+  
   methods: {
     log() {
       this.$router.push({name: 'Form'} );
     },
     deleteSquare(index) {
       this.forms.splice(index, 1);
-      localStorage.setItem('forms', JSON.stringify(this.forms));
     },
   },
 };

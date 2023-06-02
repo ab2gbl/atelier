@@ -41,11 +41,11 @@ export default {
       ],
       id: 0,
       index: 0,
-      challengeId: ""
+      coursID: ""
     };
   },
   mounted() {
-    this.challengeId = this.$route.params.challengeId; // Get the challengeId from the URL params
+    this.coursID = this.$route.params.coursID; // Get the challengeId from the URL params
   },
   methods: {
     addTask() {
@@ -76,20 +76,20 @@ export default {
       const payload = {
         name: task.name,
         tasknumber: task.index,
-        challenge: this.challengeId
+        gamifiedcours: this.coursID
       };
 
       axios.post('http://127.0.0.1:8000/creatTask/', payload)
         .then(response => {
           const taskId = response.data.id;
-          this.$router.push({ name: 'task-page', params: { taskId: taskId } });
+          this.$router.push({ name: 'Courstask-page', params: { taskId: taskId } });
         })
         .catch(error => {
           console.log(error);
         });
     },
     submit(){
-      this.$router.push('/instructor/challenges')
+      this.$router.push('/paths')
     }
 
   }

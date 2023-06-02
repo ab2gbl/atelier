@@ -118,14 +118,40 @@ const routes = [
     path: '/instructor/tasks/:challengeId',
     name: 'tasks',
     component: () => import('../views/Instructor/Challenge/TaskForm.vue')
-  }
-  ,
+  },
   {
     path: '/instructor/task-page/:challengeId/:taskId',
     name: 'task-page',
     component: () => import('../views/Instructor/Challenge/TaskPage.vue'),
     props: true
   },
+
+
+  {
+    path: '/instructor/paths/:id',
+    name: 'InstructorCourses',
+    component: () => import('../views/Instructor/InstructorCourses.vue')
+  },
+  {
+    path: '/instructor/paths/:id/create',
+    name: 'CreateCours',
+    component: () => import('../views/Instructor/Cours/CourseDetails.vue'),
+
+  },
+  {
+    path: '/instructor/courstasks/:coursId',
+    name: 'CoursTasks',
+    component: () => import('../views/Instructor/Cours/TaskForm.vue')
+  },
+  {
+    path: '/instructor/courstask-page/:coursId/:taskId',
+    name: 'Courstask-page',
+    component: () => import('../views/Instructor/Cours/TaskPage.vue'),
+    props: true
+  },
+
+
+
   {
     path: '/instructor/schedule',
     redirect: '/schedule'

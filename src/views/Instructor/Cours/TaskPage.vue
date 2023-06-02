@@ -3,7 +3,6 @@
     <div class="video-wrapper">
       <video src="@/assets/ji.mp4" autoplay loop muted></video>
     </div>
-    <h1 class="title">Task {{ index + 1 }}</h1>
     <form @submit.prevent="submitForm">
       <div class="form-group">
         <label for="type" class="label">Type:</label>
@@ -143,7 +142,7 @@ export default {
           axios.post('http://127.0.0.1:8000/createfile/', fileData);
         } */
 
-        this.$router.push('/instructor/tasks/'+this.$route.params.challengeId);
+        this.$router.push('/instructor/courstasks/'+this.$route.params.coursId);
       }
       /*
       // Create an array to store all the API requests

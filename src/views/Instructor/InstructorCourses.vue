@@ -3,7 +3,7 @@
         <GamifiedCourses />
         <div class="hero">
             <button href="Form" @click="CreateCourse" class="btn">
-            <span>Add</span>
+            <span>Create a new gamified course</span>
             </button>
         </div>
         
@@ -17,7 +17,7 @@ export default {
     }, 
     methods:{
         CreateCourse(){
-           // this.$router.push({name: })
+           this.$router.push({name: 'CreateCours',params: {id: this.$route.params.id}})
         }
     }
 }

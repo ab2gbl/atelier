@@ -27,14 +27,6 @@
         <label for="descreption">Description:</label>
         <textarea id="descreption" v-model="descreption"></textarea>
       </div>
-      <div class="form-group">
-        <label for="points">Points:</label>
-        <input type="text" id="points" v-model="points" />
-      </div>
-      <div class="form-group">
-        <label for="max_teamsize">Max Team Members:</label>
-        <input type="text" id="max_teamsize" v-model="max_teamsize" />
-      </div>
     
       <button class="next-btn" @click="saveForm">Next</button>
     
@@ -51,10 +43,6 @@ export default {
       previewUrl: null,
       name: '',
       descreption: '',
-      points: '',
-      max_teamsize: '',
-      challenge_type: "challenge",
-      job: null
     }
   },
   methods: {
@@ -75,18 +63,16 @@ export default {
       formData.append('image', this.image);
       formData.append('name', this.name);
       formData.append('descreption', this.descreption);
-      formData.append('points', this.points);
-      formData.append('max_teamsize', this.max_teamsize);
-      formData.append('challenge_type', this.challenge_type);
+      formData.append('learningpath', this.$route.params.id);
+      
       
       console.log(formData)
       
-      axios.post('http://127.0.0.1:8000/createchalenges/', formData)
+      axios.post('http://127.0.0.1:8000/creategamifiedcours/', formData)
         .then(response => {
-           const challengeId = response.data.id;
-           console.log(challengeId)
+           const coursId = response.data.id;
       // Pass the challengeId to the tasks page
-            this.$router.push({ name: 'tasks', params: { challengeId: challengeId } });
+            this.$router.push({ name: 'CoursTasks', params: { coursId: coursId } });
         })
         .catch(error => {
           console.log(error);
