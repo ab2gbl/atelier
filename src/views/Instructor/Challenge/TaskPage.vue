@@ -133,15 +133,24 @@ export default {
           axios.post('http://127.0.0.1:8000/createquestion/', questionData);
         }
         
-        /*else if (this.fields[i].type == 'file') {
+        else if (this.fields[i].type == 'file') {
           const file = this.fields[i].value; // Assuming `value` contains the file object
           const fileData = new FormData();
-          fileData.append('task_file', file, file.name);
+          fileData.append('task_file', file);
           fileData.append('filenumber', this.fields[i].index);
           fileData.append('task', this.taskId);
 
           axios.post('http://127.0.0.1:8000/createfile/', fileData);
-        } */
+        }
+        else if (this.fields[i].type == 'video') {
+          const file = this.fields[i].value; // Assuming `value` contains the file object
+          const fileData = new FormData();
+          fileData.append('task_vedio', file);
+          fileData.append('video_numbe', this.fields[i].index);
+          fileData.append('task', this.taskId);
+
+          axios.post('http://127.0.0.1:8000/createvideo/', fileData);
+        }
 
         this.$router.push('/instructor/tasks/'+this.$route.params.challengeId);
       }

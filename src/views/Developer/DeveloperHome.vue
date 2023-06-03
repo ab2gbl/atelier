@@ -8,7 +8,7 @@
                     <i class="fa fa-times" onclick="hidemenu()"></i>
                     <ul>
                         <li><a href="">HOME</a></li> 
-                        <li><a href="#about">CHALLENGES</a></li> 
+                        <li><router-link :to="{ path: '/developer/challenges' }">CHALLENGES</router-link></li> 
                         <li><a href="#places">PATH</a></li> 
                         <li><a href="#contact">ABOUT</a></li> 
                         

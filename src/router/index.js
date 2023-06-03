@@ -83,6 +83,18 @@ const routes = [
     name: 'DeveloperHome',
     component: () => import('../views/Developer/DeveloperHome.vue')
   },
+  {
+    path: '/developer/challenge/:challengeId',
+    name: 'ParticipateChallenge',
+    component: () => import('../views/Developer/ParticipateChallenge.vue'),
+    params: true
+  },
+  {
+    path: '/developer/challenges',
+    name: 'ChallengesPage',
+    component: () => import('../views/Developer/ChallengesPage.vue'),
+    params: true
+  },
   
   {
     path: '/developer/schedule',
