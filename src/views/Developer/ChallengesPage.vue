@@ -49,9 +49,7 @@
       </div>
   
     </transition>
-    <div>
-        <p>Current Time: {{ currentTime }}</p>
-      </div> <br>
+    
     </main>
   </template>
   
@@ -60,6 +58,14 @@
   import router from '@/router';
   
   export default {
+    beforeCreate(){
+      if(this.$store.state.account.role!='developer'){
+        if(this.$store.state.account.role){
+          this.$router.push('/'+this.$store.state.account.role+'/home');}
+        else{
+          this.$router.push('/login');}
+      }
+    },
     data() {
       return {
         challenges: [],

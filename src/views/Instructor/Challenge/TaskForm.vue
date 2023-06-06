@@ -22,16 +22,7 @@
 import axios from 'axios';
 
 export default {
-  beforeMount(){
-    console.log(this.$store.state.CreateC)
-    this.tasks = this.$store.state.CreateC.tasks.slice();
-    const lastTask = this.$store.state.CreateC.tasks[this.$store.state.CreateC.tasks.length - 1];
-    if (lastTask) {
-      this.id = lastTask.id;
-    }
-    this.index=this.$store.state.CreateC.tasks.length 
-    console.log(this.id ,this.index)
-  },
+  
   data() {
     return {
       tasks: [
@@ -44,10 +35,91 @@ export default {
       challengeId: ""
     };
   },
+  beforeCreate(){
+    this.$store.dispatch("GetNonPlanfiedchallenges")
+  },
+  computed:{
+    Challenge(){
+      const challengeId = this.$route.params.challengeId;
+      return this.$store.state.NonPlanfiedchallenges.find(challenge => challenge.id == challengeId);
+    }
+  },
+  beforeMount(){
+    this.tasks = this.$store.state.CreateC.tasks.slice();
+    const lastTask = this.$store.state.CreateC.tasks[this.$store.state.CreateC.tasks.length - 1];
+    if (lastTask) {
+      this.id = lastTask.id;
+    }
+    this.index=this.$store.state.CreateC.tasks.length 
+
+    //updatechallenge
+    axios.get('http://127.0.0.1:8000/getNonPlanfiedchallenges/')
+        .then((response) => {
+          const chs=response.data
+          
+          const challengeId = this.$route.params.challengeId;
+          this.Challenge=chs.find(challenge => challenge.id == challengeId);
+       
+
+    //updatetasks
+        const tasksC=this.Challenge.task
+        if (tasksC && tasksC.length > 0) {
+              this.tasks=[]
+              for (let i=0;i<tasksC.length;i++){
+                const taskField = {
+                  id: tasksC[i].id,
+                  index: tasksC[i].tasknumber,
+                  name: tasksC[i].name
+                };
+                this.tasks.push(taskField);
+              }
+          }
+        })
+        .catch((error) => {
+          console.error("Failed to fetch data:", error);
+        });
+  },
   mounted() {
     this.challengeId = this.$route.params.challengeId; // Get the challengeId from the URL params
   },
+  updated() {
+      
+      
+      
+      
+    },
+  beforeRouteLeave(){
+    this.fetchChallengeData();
+  },
   methods: {
+    fetchChallengeData() {
+      axios.get('http://127.0.0.1:8000/getNonPlanfiedchallenges/')
+        .then((response) => {
+          const chs=response.data
+          
+          const challengeId = this.$route.params.challengeId;
+          this.Challenge=chs.find(challenge => challenge.id == challengeId);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch data:", error);
+        });
+        this.fetchTasksList()
+
+    },
+    fetchTasksList(){
+      this.tasks=[]
+      const tasks=this.Challenge.task
+      if (tasks && tasks.length > 0) {
+              for (let i=0;i<tasks.length;i++){
+                const taskField = {
+                  id: tasks[i].id,
+                  index: tasks[i].tasknumber,
+                  name: tasks[i].name
+                };
+                this.tasks.push(taskField);
+              }
+            }
+    },
     addTask() {
       this.id++
       this.index++
@@ -59,34 +131,75 @@ export default {
       this.tasks.push(newTask);
     },
     removeTask(index) {
+      const ch = this.Challenge.task.find(
+                  (task) => task.tasknumber ==index+1
+                );
+       axios.delete('http://127.0.0.1:8000/updatetask/'+ch.id+'/').then(response => {
+              console.log("deleted",response)
+              
+            }).catch(error => {
+              console.log(ch.id,error);
+            }); 
       this.tasks.splice(index, 1);
-      for (let i=index+1; i<this.tasks.length; i++){
+      
+      for (let i=index; i<this.tasks.length; i++){
         this.tasks[i].index--
-      }
+      } 
       this.index--
     },
     saveTask(task) {
+      for (let ttsk of this.tasks){
+        const isIt = this.Challenge.task.some(
+                  (tsk) => tsk.id == ttsk.id
+                );
+        if(!isIt){
+          this.$store.state.CreateC.tasks=this.tasks
+          if (!ttsk.name) {
+            alert("Please enter a task name."+ttsk);
+            return;
+          }
 
-      this.$store.state.CreateC.tasks=this.tasks
-      if (!task.name) {
-        alert("Please enter a task name.");
-        return;
+          const payload = {
+            name: ttsk.name,
+            tasknumber: ttsk.index,
+            challenge: this.challengeId
+          };
+
+          axios.post('http://127.0.0.1:8000/creatTask/', payload).then(response => {
+              if (ttsk.id==task.id){
+                ttsk.id = response.data.id
+                task.id = response.data.id
+                this.$store.dispatch("GetNonPlanfiedchallenges")
+                this.$router.push({ name: 'task-page', params: { taskId: task.id } });
+              }
+              
+            })
+            .catch(error => {
+              console.log(error);
+            });
+            this.$store.dispatch("GetNonPlanfiedchallenges")
+        }else{
+          const ch = this.Challenge.task.find(
+                  (tsk) => tsk.id == ttsk.id
+                );
+          if (!(ttsk.name==ch.name && ttsk.index==ch.tasknumber)){
+            const payload = {
+              id: ttsk.id,
+              name: ttsk.name,
+              tasknumber: ttsk.index,
+            };
+            axios.put('http://127.0.0.1:8000/updatetask/'+ttsk.id+'/', payload).then(response => {
+              console.log("updated",response)
+              this.$router.push({ name: 'task-page', params: { taskId: task.id } });
+            })
+            .catch(error => {
+              console.log(error);
+            });
+            this.$store.dispatch("GetNonPlanfiedchallenges")
+          }
+        }
+
       }
-
-      const payload = {
-        name: task.name,
-        tasknumber: task.index,
-        challenge: this.challengeId
-      };
-
-      axios.post('http://127.0.0.1:8000/creatTask/', payload)
-        .then(response => {
-          const taskId = response.data.id;
-          this.$router.push({ name: 'task-page', params: { taskId: taskId } });
-        })
-        .catch(error => {
-          console.log(error);
-        });
     },
     submit(){
       this.$router.push('/instructor/challenges')

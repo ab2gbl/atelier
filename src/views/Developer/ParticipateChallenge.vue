@@ -84,8 +84,8 @@
           this.$router.push('/'+this.$store.state.account.role+'/home');}
         else{
           this.$router.push('/login');}
-      }
-      this.$store.dispatch("GetPlanfiedchallenges")
+      }else{
+        this.$store.dispatch("GetPlanfiedchallenges")
         .then(() => {
           this.challengeLoaded = true;
         })
@@ -122,7 +122,7 @@
             }else
               router.push({path:'/developer/challenges'})
           })
-       
+      }
           
     },
     updated() {
