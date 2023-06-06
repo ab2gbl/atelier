@@ -15,6 +15,7 @@ export default createStore({
     },
     Planfiedchallenges: [],
     NonPlanfiedchallenges: [],
+    NonPlanfiedjobs:[],
     Paths:[],
     GamifiedCourses:[],
 
@@ -47,6 +48,12 @@ export default createStore({
     GetNonPlanfiedchallenges_M(state) {
       axios.get('http://127.0.0.1:8000/getNonPlanfiedchallenges/').then(resp => {
         state.NonPlanfiedchallenges = resp.data;
+      });
+      
+    },
+    GetNonPlanfiedjobs_M(state) {
+      axios.get('http://127.0.0.1:8000/getnonplanifiedJob/').then(resp => {
+        state.NonPlanfiedjobs = resp.data;
       });
     },
     GetPaths_M(state) {
@@ -120,6 +127,9 @@ export default createStore({
     },
     GetNonPlanfiedchallenges({ commit }) {
       commit('GetNonPlanfiedchallenges_M');
+    },
+    GetNonPlanfiedjobs({ commit }) {
+      commit('GetNonPlanfiedjobs_M');
     },
     GetPaths({ commit }) {
       commit('GetPaths_M');

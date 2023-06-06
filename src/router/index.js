@@ -106,6 +106,30 @@ const routes = [
     name: 'CompanyHome',
     component: () => import('../views/Company/CompanyHome.vue')
   },
+
+  /* {
+    path: '/company/Joboffers',
+    name: 'CompanyChallenges',
+    component: () => import('../views/Instructor/ChallengesPage.vue')
+  }, */
+  {
+    path: '/company/form',
+    name: 'CompanyForm',
+    component: () => import('../views/Company/FormPage.vue')
+  },
+  {
+    path: '/company/tasks/:challengeId',
+    name: 'Companytasks',
+    component: () => import('../views/Company/TaskForm.vue')
+  },
+  {
+    path: '/company/task-page/:challengeId/:taskId',
+    name: 'Companytask-page',
+    component: () => import('../views/Company/TaskPage.vue'),
+    props: true
+  },
+  
+  
   {
     path: '/company/schedule',
     redirect: '/schedule'

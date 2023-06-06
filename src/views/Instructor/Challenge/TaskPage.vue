@@ -66,7 +66,7 @@
       </div>
       <button type="submit" class="submit-btn">Submit</button>
     </form>
-    
+    <div style="background-color: aliceblue;">{{ Challenge }} <br> </div>
   </div>
 </template>
 
@@ -90,6 +90,30 @@ export default {
   },
   
   beforeMount(){
+    axios.get('http://127.0.0.1:8000/getNonPlanfiedchallenges/')
+        .then((response) => {
+          const chs=response.data
+          
+          const challengeId = this.$route.params.challengeId;
+          this.Challenge=chs.find(challenge => challenge.id == challengeId);
+
+          if(this.Challenge){
+            if(this.$store.state.account.id!=this.Challenge.created_by){
+              if(this.$store.state.account.role){
+                this.$router.push('/'+this.$store.state.account.role+'/home');
+              }else
+                this.$router.push('/')
+            }
+          }
+        })
+        .catch((error) => {
+          console.error("Failed to fetch data:", error);
+        });
+    
+
+
+
+
       axios.get('http://127.0.0.1:8000/getNonPlanfiedchallenges/')
           .then((response) => {
             const chs=response.data
@@ -245,7 +269,7 @@ export default {
     },
     emptyTask(){
       const tI = this.Challenge.task.findIndex((task) => task.id == this.taskId);
-      console.log(tI)
+      console.log(tI,this.taskId)
       this.Challenge.task[tI].titel.forEach((title) => {
         const deleteUrl = `http://127.0.0.1:8000/titelUpdateDelete/${title.id}/`;
         axios.delete(deleteUrl)

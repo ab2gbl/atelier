@@ -4,7 +4,6 @@
     <div class="video-wrapper">
       <video src="@/assets/ji.mp4" autoplay loop muted></video>
     </div>
-    <h1>Upload a Form</h1>
     <div class="form">      
       <div class="form-group">  
         <label for="image">Image:</label>
@@ -27,9 +26,23 @@
         <label for="descreption">Description:</label>
         <textarea id="descreption" v-model="descreption"></textarea>
       </div>
+
+      <div class="form-group">
+        <label for="skillsrequirment">Skills requirment:</label>
+        <textarea id="skillsrequirment" v-model="skillsrequirment"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="jobbenifits">Job benifits:</label>
+        <textarea id="jobbenifits" v-model="jobbenifits"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="employment_nedded">Employment nedded:</label>
+        <input type="number" id="employment_nedded" v-model="employment_nedded" />
+      </div>
+      
       <div class="form-group">
         <label for="max_teamsize">Max participants:</label>
-        <input type="text" id="max_teamsize" v-model="max_teamsize" />
+        <input type="number" id="max_teamsize" v-model="max_teamsize" />
       </div>
       <div  class="form-group">
         <label class="label">Rules: </label>
@@ -65,8 +78,12 @@ export default {
       created_by:this.$store.state.account.id,
       points: 0,
       max_teamsize: '',
-      challenge_type: "challenge",
+      challenge_type: "job",
       job: null,
+
+      skillsrequirment: '',
+      jobbenifits:'',
+      employment_nedded:'',
 
       rules:[{id:0,rule:''}],
       idrule:0,
@@ -103,36 +120,60 @@ export default {
         alert('Please fill in all fields.')
         return
       }
-      const formData = new FormData();
-      formData.append('image', this.image);
-      formData.append('name', this.name);
-      formData.append('descreption', this.descreption);
-      formData.append('points', this.points);
-      formData.append('max_teamsize', this.max_teamsize);
-      formData.append('challenge_type', this.challenge_type);
-      formData.append('created_by', this.created_by);
-      
-      
-      console.log(formData)
-      
-      axios.post('http://127.0.0.1:8000/createchalenges/', formData)
+      const formData0 = new FormData();
+      formData0.append('name', this.name);
+      formData0.append('descreption', this.descreption);
+      formData0.append('skillsrequirment', this.skillsrequirment);
+      formData0.append('jobbenifits', this.jobbenifits);
+      formData0.append('employment_nedded', this.employment_nedded);
+      formData0.append('image', this.image);
+      axios.post('http://127.0.0.1:8000/createjoboffer/', formData0)
         .then(response => {
-           const challengeId = response.data.id;
-           console.log(challengeId)
-      // Pass the challengeId to the tasks page
-          for (let rule of this.rules){
-              const payload = {
-                rule: rule.rule,
-                challenges: challengeId
-              };
-              console.log(rule,payload)
-              axios.post('http://127.0.0.1:8000/creatrules/', payload)
-          } 
-            this.$router.push({ name: 'tasks', params: { challengeId: challengeId } });
+          this.job=response.data.id
+
+          
+          const formData = new FormData();
+          formData.append('image', this.image);
+          formData.append('name', this.name);
+          formData.append('descreption', this.descreption);
+          formData.append('points', this.points);
+          formData.append('max_teamsize', this.max_teamsize);
+          formData.append('challenge_type', this.challenge_type);
+          formData.append('created_by', this.created_by);
+          
+          formData.append('job', this.job);
+          
+          
+          
+          
+          axios.post('http://127.0.0.1:8000/createchalenges/', formData)
+          .then(response => {
+            const challengeId = response.data.id;
+            console.log(challengeId)
+        // Pass the challengeId to the tasks page
+            for (let rule of this.rules){
+                const payload = {
+                  rule: rule.rule,
+                  challenges: challengeId
+                };
+                console.log(rule,payload)
+                axios.post('http://127.0.0.1:8000/creatrules/', payload)
+            } 
+              this.$router.push({ name: 'Companytasks', params: { challengeId: challengeId } });
+          })
+          .catch(error => {
+            console.log(error);
+          })
+
         })
         .catch(error => {
           console.log(error);
-        })  
+        })
+
+
+      
+
+
 
       const forms = JSON.parse(localStorage.getItem('forms')) || []
       forms.push({ image: this.previewUrl, name: this.name, descreption: this.descreption, points: this.points, max_teamsize: this.max_teamsize })

@@ -3,7 +3,6 @@
     <div class="video-wrapper">
       <video src="@/assets/ji.mp4" autoplay loop muted></video>
     </div>
-    <h1 class="title">Task {{ taskId }}</h1>
     <form @submit.prevent="submitForm">
       <div class="form-group">
         <label for="type" class="label">Type:</label>
@@ -86,29 +85,46 @@ export default {
     }
   },
   beforeCreate(){
-    this.$store.dispatch("GetGamifiedCourses")
+    this.$store.dispatch("GetNonPlanfiedjobs")
   },
   
   beforeMount(){
+    axios.get('http://127.0.0.1:8000/getnonplanifiedJob/')
+        .then((response) => {
+          const chs=response.data
+          
+          const challengeId = this.$route.params.challengeId;
+          this.Challenge=chs.find(challenge => challenge.id == challengeId);
+
+          if(this.Challenge){
+            if(this.$store.state.account.id!=this.Challenge.created_by){
+              if(this.$store.state.account.role){
+                this.$router.push('/'+this.$store.state.account.role+'/home');
+              }else
+                this.$router.push('/')
+            }
+          }
+        })
+        .catch((error) => {
+          console.error("Failed to fetch data:", error);
+        });
     
 
 
 
 
-      axios.get('http://127.0.0.1:8000/creategamifiedcours/')
+      axios.get('http://127.0.0.1:8000/getnonplanifiedJob/')
           .then((response) => {
             const chs=response.data
             
-            const coursId = this.$route.params.coursId;
-            this.Challenge=chs.find(challenge => challenge.id == coursId);
+            const challengeId = this.$route.params.challengeId;
+            this.Challenge=chs.find(challenge => challenge.id == challengeId);
             
             const tI = this.Challenge.task.findIndex((task) => task.id == this.$route.params.taskId);
             
             
             const task=this.Challenge.task[tI]
             this.fetchChallengeData()
-            console.log('challenge',this.Challenge)
-            console.log('task',task)
             if (task.titel && task.titel.length > 0) {
               for (let i=0;i<task.titel.length;i++){
                 const titleField = {
@@ -204,12 +220,12 @@ export default {
   },
   methods: {
     fetchChallengeData() {
-      axios.get('http://127.0.0.1:8000/creategamifiedcours/')
+      axios.get('http://127.0.0.1:8000/getnonplanifiedJob/')
         .then((response) => {
           const chs=response.data
           
-          const coursId = this.$route.params.coursId;
-          this.Challenge=chs.find(challenge => challenge.id == coursId);
+          const challengeId = this.$route.params.challengeId;
+          this.Challenge=chs.find(challenge => challenge.id == challengeId);
         })
         .catch((error) => {
           console.error("Failed to fetch data:", error);
@@ -253,7 +269,6 @@ export default {
     emptyTask(){
       const tI = this.Challenge.task.findIndex((task) => task.id == this.taskId);
       console.log(tI)
-      console.log(this.Challenge)
       this.Challenge.task[tI].titel.forEach((title) => {
         const deleteUrl = `http://127.0.0.1:8000/titelUpdateDelete/${title.id}/`;
         axios.delete(deleteUrl)
@@ -434,7 +449,7 @@ export default {
           }
         }
 
-        this.$router.push('/instructor/courstasks/'+this.$route.params.coursId);
+        this.$router.push('/company/tasks/'+this.$route.params.challengeId);
       }
       /*
       // Create an array to store all the API requests
