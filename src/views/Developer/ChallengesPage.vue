@@ -1,57 +1,59 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <main id="challenges">
-      <DeveloperNavbar />
-      
-      <div v-for="challenge in challenges" :key="challenge.id" class="challenge">
-        <img :src="challenge.image_url" />
-        <div class="challenge-content">
-          <h2 class="challenge-name">{{ challenge.name }}</h2>
-          <p class="challenge-description">{{ challenge.descreption }}</p>
-          <div class="challenge-info">
-            <span class="points">Points: {{ challenge.points }}</span>
-            <span class="points">Max team: {{ challenge.max_teamsize }}</span>
-            <a href="#" class="participate-btn" @click="showChallengeForm(challenge)" >More info</a>
-          </div>
-        </div>
-      </div>
-  
-      <transition name="fade">
-      <div v-if="showModal" class="modal">
-        <div class="modal-content">
-          <span class="close" @click="closeChallengeForm">&times;</span>
-          <img :src="selectedChallenge.image_url" />
-          <h2 class="challenge-name">{{ selectedChallenge.name }}</h2>
-          <p class="challenge-description">{{ selectedChallenge.descreption }}</p>
-          <p class="challenge-description">start: {{ displayTime(selectedChallenge.start_date) }}</p>
-          <p class="challenge-description">end: {{ displayTime(selectedChallenge.end_date) }}</p>
-          
-          <div class="challenge-info">
-            <span class="points">Points: {{ selectedChallenge.points }}</span>
-            <span class="points">Max team: {{ selectedChallenge.max_teamsize }}</span>
-          </div>
-          <template v-if="getTime(selectedChallenge.start_date,selectedChallenge.end_date)=='register'" >
-            <button v-if="isRegistered()" class="disabled-btn" >Registered</button>
-            <button v-else :class="registerClass" @click="registerForChallenge" :disabled="isDisabled">Register</button>
-          </template>
-          <button v-else-if="getTime(selectedChallenge.start_date,selectedChallenge.end_date)=='finished'" class="disabled-btn" disabled>Finished</button>
-          <template v-else-if="getTime(selectedChallenge.start_date,selectedChallenge.end_date)=='started'" >
-            <button v-if="isRegistered()" @click="participate(selectedChallenge.id)" class="register-btn"> participate </button>
-            <button v-else class="disabled-btn" disabled> started </button>
-          </template>
-          
-          <!-- Add your form content here -->
-          <div v-if="showSuccessMessage" class="success-message">
-            You have successfully registered for the challenge.
-          </div>
-        </div>
+  <div id="bdy">
+      <main id="challenges">
+        <DeveloperNavbar />
         
+        <div v-for="challenge in challenges" :key="challenge.id" class="challenge">
+          <img :src="challenge.image_url" />
+          <div class="challenge-content">
+            <h2 class="challenge-name">{{ challenge.name }}</h2>
+            <p class="challenge-description">{{ challenge.descreption }}</p>
+            <div class="challenge-info">
+              <span class="points">Points: {{ challenge.points }}</span>
+              <span class="points">Max team: {{ challenge.max_teamsize }}</span>
+              <a href="#" class="participate-btn" @click="showChallengeForm(challenge)" >More info</a>
+            </div>
+          </div>
+        </div>
     
-      </div>
-  
-    </transition>
+        <transition name="fade">
+        <div v-if="showModal" class="modal">
+          <div class="modal-content">
+            <span class="close" @click="closeChallengeForm">&times;</span>
+            <img :src="selectedChallenge.image_url" />
+            <h2 class="challenge-name">{{ selectedChallenge.name }}</h2>
+            <p class="challenge-description">{{ selectedChallenge.descreption }}</p>
+            <p class="challenge-description">start: {{ displayTime(selectedChallenge.start_date) }}</p>
+            <p class="challenge-description">end: {{ displayTime(selectedChallenge.end_date) }}</p>
+            
+            <div class="challenge-info">
+              <span class="points">Points: {{ selectedChallenge.points }}</span>
+              <span class="points">Max team: {{ selectedChallenge.max_teamsize }}</span>
+            </div>
+            <template v-if="getTime(selectedChallenge.start_date,selectedChallenge.end_date)=='register'" >
+              <button v-if="isRegistered()" class="disabled-btn" >Registered</button>
+              <button v-else :class="registerClass" @click="registerForChallenge" :disabled="isDisabled">Register</button>
+            </template>
+            <button v-else-if="getTime(selectedChallenge.start_date,selectedChallenge.end_date)=='finished'" class="disabled-btn" disabled>Finished</button>
+            <template v-else-if="getTime(selectedChallenge.start_date,selectedChallenge.end_date)=='started'" >
+              <button v-if="isRegistered()" @click="participate(selectedChallenge.id)" class="register-btn"> participate </button>
+              <button v-else class="disabled-btn" disabled> started </button>
+            </template>
+            
+            <!-- Add your form content here -->
+            <div v-if="showSuccessMessage" class="success-message">
+              You have successfully registered for the challenge.
+            </div>
+          </div>
+          
+      
+        </div>
     
-    </main>
+      </transition>
+      
+      </main>
+    </div>
   </template>
   
   <script>
@@ -191,11 +193,13 @@
   };
   </script>
   <style scoped>
-  
+  #bdy{
+    min-height: 100vh;
+    background-color: #043e70;
+  }
   
   #challenges {
     font-family: Arial, sans-serif;
-    background-color: #043e70;
   }
   
   header {

@@ -19,7 +19,7 @@
       </div>
 </template>
 
-<script>
+<script >
 import axios from 'axios';
 
 export default {
@@ -242,7 +242,7 @@ export default {
           else{
             if (ttsk.id==task.id){
               if(task.id!=0)
-                this.$router.push({ name: 'task-page', params: { taskId: task.id } });
+                this.$router.push({ name: 'Companytask-page', params: { taskId: task.id } });
             }
           }   
         }
@@ -295,7 +295,7 @@ export default {
           }
         }
       }
-      this.$router.push('/company/home')
+      this.$router.push('/company/jobs')
     }
 
   }

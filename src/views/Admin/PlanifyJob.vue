@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <AdminNavBar style="margin-bottom: 10px;" />
+    <AdminNavbar style="margin-bottom: 10px;" />
     <div class="challenges row">
       <div class="col-md-4" v-for="challenge in challenges" :key="challenge.id">
         <div class="challenge card mb-3">
@@ -51,7 +51,7 @@
 
 <script>
 import axios from 'axios';
-import AdminNavBar from '@/components/AdminNavBar.vue';
+import AdminNavbar from '@/components/AdminNavbar.vue';
 //import { AOS } from 'aos';
 
 export default {
@@ -68,7 +68,7 @@ export default {
         
   },
   components:{
-    AdminNavBar,
+    AdminNavbar,
   },
   computed: {
     challenges() {

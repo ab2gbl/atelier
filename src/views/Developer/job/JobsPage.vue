@@ -1,5 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
+  <div id="bdy">
     <main id="challenges">
       <DeveloperNavbar />
       <div v-for="challenge in challenges" :key="challenge.id" class="challenge">
@@ -51,6 +52,7 @@
     </transition>
     
     </main>
+    </div>
   </template>
   
   <script>
@@ -190,9 +192,12 @@
   };
   </script>
   <style scoped>
+  #bdy{
+    min-height: 100vh;
+    background-color: #043e70;
+  }
   #challenges {
     font-family: Arial, sans-serif;
-    background-color: #043e70;
   
   }
   

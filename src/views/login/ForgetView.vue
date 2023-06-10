@@ -49,7 +49,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .forgot-password-page {
   display: flex;
   justify-content: center;

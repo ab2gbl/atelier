@@ -8,8 +8,8 @@
 
       
           <div class="hero">
-            <button href="Form" @click="log" class="add-button">
-              <router-link :to="{ name: 'Form' }"></router-link><i class="fas fa-plus"></i>
+            <button @click="log" class="add-button">
+              <router-link :to="{ name: 'CompanyForm' }"></router-link><i class="fas fa-plus"></i>
             </button>
           </div>
         </div>
@@ -61,10 +61,10 @@ export default {
   },
   computed: {
     forms() {
-      return this.$store.state.NonPlanfiedchallenges.filter(challenge => challenge.created_by == this.$store.state.account.id);
+      return this.$store.state.NonPlanfiedjobs.filter(challenge => challenge.created_by == this.$store.state.account.id);
     }},
     beforeMount() {
-    this.$store.dispatch('GetNonPlanfiedchallenges');
+    this.$store.dispatch('GetNonPlanfiedjobs');
   },
   updated(){
     console.log(this.forms[0])
@@ -87,14 +87,14 @@ export default {
               this.$router.push('/login');
           },
           log() {
-      this.$router.push({name: 'Form'} );
+      this.$router.push({name: 'CompanyForm'} );
     },
     selectSquare(square) {
 this.selectedSquare = square;
 },
 
     Edit(id) {
-      this.$router.push({path: '/instructor/tasks/'+id})
+      this.$router.push({path: '/company/tasks/'+id})
   }
 }
 };

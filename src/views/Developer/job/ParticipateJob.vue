@@ -1,5 +1,6 @@
 <template>
-    <div v-if="challengeLoaded">
+    <div v-if="challengeLoaded" id="main">
+      <DeveloperNavbar/>
       <div v-if="Challenge" class="challenge">
         <div class="task" v-for="i in Challenge.task" :key="i.tasknumber">
             <div class="task-head">
@@ -48,6 +49,11 @@
                 </div>
             </div>
         </div>
+        <router-link :to="{ path: '/developer/job/'+this.$route.params.challengeId+'/leaderboard' }">
+            <div class="btn">
+              <span id="leadetboard">Leaderbord</span>
+            </div>
+          </router-link>
       </div>
     </div>    
   </template>
@@ -55,7 +61,12 @@
   <script>
  import router from '@/router';
  import axios from 'axios';
-  export default {
+ 
+ import DeveloperNavbar from '@/components/DeveloperNavbar'
+ export default {
+    components:{
+      DeveloperNavbar
+    },
     data() {
       return {
         challengeLoaded: false,
@@ -219,6 +230,26 @@
   </script>
   <style scoped>
   @import '@fortawesome/fontawesome-free/css/all.css';
+  #main{
+    background-color: #043e70;
+    min-height: 100vh;
+  }
+  #leadetboard{
+  color: #fff;
+
+}
+.btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-left: 50%;
+  transform: translate(-50%);
+}
 
 .challenge{
   align-content: center;

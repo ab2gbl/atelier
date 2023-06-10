@@ -2,95 +2,198 @@
 <template>
     <div>
         <section class="header">
-            <nav>
-                <img src="@/assets/a.png" >
-                <div class="nav-links" id="navlinks">
-                    <i class="fa fa-times" onclick="hidemenu()"></i>
-                    <ul>
-                        <li><a href="">HOME</a></li> 
-                        <li><a href="#about">CHALLENGES</a></li> 
-                        <li><a href="#places">PATH</a></li> 
-                        <li><a href="#contact">ABOUT</a></li> 
-                        
-                        <li href="Login" @click="logout()">
-                            <router-link :to="{ name: 'Login' }"><span>LOGOUT</span></router-link>
-                        </li>
-                        
-                    </ul>
-                </div>
-            <i class="fa fa-bars" onclick="showmenu()"></i>
-            </nav>
+        <CompanyNavbar />
             <div class="icon">
-                <img class="im" src="@/assets/li.png" alt="">
+            <img class="im" src="../../assets/li.png" alt="">
+            </div>
+        <div class="text-box">
+            <h4>Experience the ultimate</h4>
+            <h1> ONLINE  </h1>
+            <h1> <span>COMPETITIVE,</span>  </h1>
+            <h1> <span>SECURE PLATFORM </span> </h1>
+            <p>Unlock the power of <span>CYBERSECURITY</span>  with our platform</p>
+            <a class="hero-btn" href="Login"  @click="log">
+                <router-link :to="{ name: 'Login' }"></router-link> Let's Get Started
+            </a>
+            
+        </div>
+        </section>
+        <section class="course" data-aos="fade-up" >
+        <h1>RULES</h1>
+            <p>
+            You need to be caregul when using our platforn
+            </p>
+            <div class="row">
+            <div class="course-col" data-aos="fade-up">
+            <h3>COMPILIANCE</h3>
+            <p>
+            Food and drink is a big part of what travel is
+            all about. We love searching for authentic fare
+            by eating at food stalls, enjoying home cooking 
+            and trying out regional specialities. Sit with 
+            locals and enjoy traditional food in places where 
+            the atmosphere is part of the experience
+            </p>
+            </div>
+            
+            
+            <div class="course-col" data-aos="fade-up">
+            <h3>DATA PROTECTION</h3>
+            <p>
+                Developers should ensure that any sensitive data they access or handle is properly protected and secured. This includes encrypting data both in transit and at rest, and following any data protection policies and procedures.
+            </p>
+            </div>
+            <div class="course-col" data-aos="fade-up">
+                <h3> Authentication </h3>
+                <p>
+                    Developers must use strong authentication mechanisms, such as strong passwords and multi-factor authentication, to access the cybersecurity platform.
+                </p>
                 </div>
-            <div class="text-box">
-                <h4>Experience the ultimate</h4>
-                <h1> I am  </h1>
-                <h1> <span>COMPANY,</span>  </h1>
+            
             </div>
         </section>
         
+        <section id="places" class="campus" data-aos="fade-up">
+            <h1>WITH OUR PLATFORM</h1>
+            <p>You can have a lot of challenges, job offers, and competitions</p>
+            <div class="row">
+                <div class="campus-col" data-aos="fade-up">
+                    <img src="../../assets/competitions.jpg" alt="">
+                    <div class="layer">
+                        <h3>Challenges</h3>
+                    </div> 
+                </div>
+                <div class="campus-col" data-aos="fade-up">
+                    <img src="../../assets/competitions.jpg" alt="">
+                        <div class="layer">
+                            <h3>Competitions</h3>
+                        </div> 
+                </div>
+                <div class="campus-col" data-aos="fade-up">
+                    <img src="../../assets/competitions.jpg" alt="">
+                    <div class="layer">
+                        <h3>Job Offers</h3>
+                    </div> 
+                </div>
+            </div>
+        </section>
+        
+        <section class="facilities" data-aos="fade-up">
+            <h1>OUR BADGES </h1>
+            <div class="row" data-aos="fade-up">
+                <div class="facilities-col" data-aos="fade-up">
+                    <img src="../../assets/b.png">
+                    <h3>GOLD</h3>
+                    <P>You earn this badge if your points equals or biger than 20000 points </P>
+                </div>
+                <div class="facilities-col" data-aos="fade-up">
+                    <img src="../../assets/d.png">
+                    <h3>PLATINIUM</h3>
+                    <P>You earn this badge if your points equals or biger than 10000 points </P>
+                </div>
+                <div class="facilities-col" data-aos="fade-up">
+                    <img src="../../assets/c.png">
+                    <h3>SILVER</h3>
+                    <P>You earn this badge if your points equals or biger than 9999 points </P>
+                </div>     
+            </div>
+        </section>
+        
+        <section class="video" data-aos="fade-up" >
+            <h1> ENJOY </h1>
+            <br><br><br><br>
+            <div  data-aos="fade-up">
+                <video class="video-vd" width="1000" controls  >
+                </video>
+            </div>
+        </section>
+            <section  id="contact" class="cta" data-aos="fade-up">
+            <h1>contact us for more informations <br> and thank you for visting our platform </h1>
+        <router-link :to="{ name: 'Contact' }"><a href="" class="hero-btn">CONSTACT US </a></router-link>
+        </section>
+        <section id="about" class ="footer">
+            <h4> ABOUT US </h4>
+            <P>“Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello .</P>
+                <div class="icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            <p> &copy; designed by | MOHAMED AMINE TOUATI</p>
+        </section>
+        <button
+        v-if="showGoToTop"
+        class="go-to-top-button"
+        @click="goToTop"
+        data-aos="fade-up">
+        <i class="fas fa-arrow-up"></i>
+        </button>
     </div>
 </template>
 <script>
-    import AOS from 'aos';
+    import CompanyNavbar from '@/components/CompanyNavbar.vue';
+import AOS from 'aos';
     import 'aos/dist/aos.css';
     export default {
-        data() {
+    data() {
         return {
-            email: '',
-            password: '',
+            email: "",
+            password: "",
             scrollPosition: 0
-            }
+        };
+    },
+    methods: {
+        logout() {
+            sessionStorage.removeItem("account");
+            this.$store.state.account = {
+                "id": null,
+                "email": null,
+                "username": null,
+                "role": null,
+                "is_verified": null,
+                "image": null,
+                "skills": null
+            };
+            this.$router.push("/login");
         },
-        methods: {
-            logout() {
-                sessionStorage.removeItem('account');
-                this.$store.state.account={
-                    "id": null,
-                    "email": null,
-                    "username": null,
-                    "role": null,
-                    "is_verified": null,
-                    "image": null,
-                    "skills": null
-                };
-                this.$router.push('/login');
-            },
-             handleScroll() {
+        handleScroll() {
             this.scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-            },
-            goToTop() {
+        },
+        goToTop() {
             window.scrollTo({
                 top: 0,
-                behavior: 'smooth',
+                behavior: "smooth",
             });
-            }
-        },
-        computed: {
-            showGoToTop() {
+        }
+    },
+    computed: {
+        showGoToTop() {
             return this.scrollPosition > 0;
-            },
         },
-        mounted() {
-            window.addEventListener('scroll', this.handleScroll);
-        },
-        beforeUnmount() {
-            window.removeEventListener('scroll', this.handleScroll);
-        },
-        created() {
-            if(this.$store.state.account.role!='company'){
-                if(this.$store.state.account.role){
-                    this.$router.push('/'+this.$store.state.account.role+'/home');}
-                else{
-                    this.$router.push('/login');}
+    },
+    mounted() {
+        window.addEventListener("scroll", this.handleScroll);
+    },
+    beforeUnmount() {
+        window.removeEventListener("scroll", this.handleScroll);
+    },
+    created() {
+        if (this.$store.state.account.role != "company") {
+            if (this.$store.state.account.role) {
+                this.$router.push("/" + this.$store.state.account.role + "/home");
             }
-            AOS.init({
-                offset: 200,
-                duration: 2000,
-            });
-        },
-    }
+            else {
+                this.$router.push("/login");
+            }
+        }
+        AOS.init({
+            offset: 200,
+            duration: 2000,
+        });
+    },
+    components: { CompanyNavbar }
+}
 </script>
 <style scoped>
     @import url('https://unpkg.com/aos@next/dist/aos.css');

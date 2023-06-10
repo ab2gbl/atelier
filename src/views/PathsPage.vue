@@ -1,6 +1,10 @@
 <template>
     <div id="main">
-      <DeveloperNavbar/>
+      <DeveloperNavbar v-if="this.$store.state.account.role=='developer'"/>
+      <InstructorNavbar v-else-if="this.$store.state.account.role=='instructor'"/>
+      <CompanyNavbar v-else-if="this.$store.state.account.role=='company'"/>
+      <AdminNavbar v-else-if="this.$store.state.account.role=='admin'"/>
+      
       <header>
         <h1>Learning Paths</h1>
       </header>
@@ -17,41 +21,36 @@
             <!-- <router-link :to="{ name: 'Login' }"></router-link> -->
             <router-link :to="{ name: 'GamifiedCourses', params: { id: path.id } }"><h2>{{ path.name  }}</h2></router-link>
             <p>{{ path.descreption  }}</p>
-            <a href="#" class="learn-more">Learn More</a>
+            <button class="learn-more" v-if="this.$store.state.account.role=='admin'" @click="deletep(path.id)">delete</button>
           </div>
         </div>
       </section>
-      
+      <router-link :to="{ path: '/admin/createpath' }">
+            <div class="btn">
+              <span id="leadetboard">NEW PATH</span>
+            </div>
+          </router-link>
     </main>
-    <div class="popup-overlay"></div>
-    <div class="popup">
-                <div class="popup-content">
-                    <h3> introduction to cybersecurity </h3>
-                    <p> The beginner's path is characterized by exploration, experimentation, and a strong emphasis on building a strong foundation. It requires patience, persistence, and a willingness to learn from mistakes. Beginners are encouraged to take small steps, set achievable goals, and gradually challenge themselves as they gain confidence and competence.</p>
-                    <h4>what you gonna learn on this path?</h4>
-                    <ul>
-                        <li>Set Clear Goals: Clearly define what you want to achieve in your chosen field.</li>
-                        <li>Embrace the Learning Process: Understand that learning is a continuous process and that making mistakes is an integral part of it</li>
-                        <li>Find Reliable Resources: Seek out high-quality and reputable resources such as textbooks, online tutorials, courses, or mentors</li>
-                        <li>Set Clear Goals: Clearly define what you want to achieve in your chosen field.</li>
-                        <li>Embrace the Learning Process: Understand that learning is a continuous process and that making mistakes is an integral part of it</li>
-                        <li>Find Reliable Resources: Seek out high-quality and reputable resources such as textbooks, online tutorials, courses, or mentors</li>
-                        <li>Set Clear Goals: Clearly define what you want to achieve in your chosen field.</li>
-                    
-                    
-                    </ul>
-                     <a href="#" class="close-popup">Close</a>
-                </div>
-    </div>
+    
   </div>
   </template>
   
   <script>
   //  import axios from 'axios';
   import DeveloperNavbar from '@/components/DeveloperNavbar'
+  import InstructorNavbar from '@/components/InstructorNavbar'
+  import CompanyNavbar from '@/components/CompanyNavbar.vue'
+  
+  import AdminNavbar from '@/components/AdminNavbar.vue'
+import axios from 'axios'
+  
   export default {
     components:{
-      DeveloperNavbar
+      DeveloperNavbar,
+      InstructorNavbar,
+      CompanyNavbar,
+      AdminNavbar
+      
     },
     beforeCreate(){
       this.$store.dispatch('GetPaths');
@@ -69,11 +68,46 @@
     beforeMount(){
       this.$store.dispatch('GetPaths');
       console.log(this.$store.state.Paths)
+    },
+    methods:{
+      deletep(tid){
+        console.log(tid)
+        axios.delete('http://127.0.0.1:8000/deleteupdatelearnpath/'+tid+'/').then((response)=>{
+          console.log(response)
+          const index = this.paths.findIndex((path) => path.id === tid);
+          this.$store.dispatch('GetPaths').then(()=>{
+          this.paths=this.$store.state.Paths
+        })
+          if (index !== -1) {
+            this.paths.splice(index, 1);
+          }
+        }).catch(error => {
+            console.log(error);
+        })  
+          
+      }
     }
   }
   </script>
   
  <style scoped>
+ #leadetboard{
+  color: #fff;
+
+}
+.btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-left: 50%;
+  transform: translate(-50%);
+}
+
  /* Reset some default styles */
 body, h1, h2, p, ul, li {
     margin: 0;

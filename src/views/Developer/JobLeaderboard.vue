@@ -86,7 +86,7 @@
       </div>
 
     </div>
-          <router-link :to="{ path: '/developer/challenge/'+this.$route.params.challengeId+'/'}">
+          <router-link :to="{ path: '/developer/job/'+this.$route.params.challengeId+'/'}">
     <div class="btn">
           <span id="leadetboard">Back</span>
       </div>
@@ -124,7 +124,7 @@ import DeveloperNavbar from '@/components/DeveloperNavbar'
         else{
           this.$router.push('/login');}
       }
-      this.$store.dispatch("GetPlanfiedchallenges")
+      this.$store.dispatch("GetPlanfiedjobs")
       },
     mounted() {
       this.fetchLeaderboardData();
@@ -132,13 +132,13 @@ import DeveloperNavbar from '@/components/DeveloperNavbar'
     computed: {
       Challenge() {
         const challengeId = this.$route.params.challengeId;
-        return this.$store.state.Planfiedchallenges.find(challenge => challenge.id == challengeId);
+        return this.$store.state.Planfiedjobs.find(challenge => challenge.id == challengeId);
       },
     },
     methods: {
       fetchChallengeData() {
         axios
-          .get('http://127.0.0.1:8000/getPlanfiedchallenges/')
+          .get('http://127.0.0.1:8000/getplanifiedJob/')
           .then((response) => {
             const chs=response.data
             const chId = this.$route.params.challengeId;
@@ -149,13 +149,13 @@ import DeveloperNavbar from '@/components/DeveloperNavbar'
       },
       fetchLeaderboardData() {
         axios
-          .get('http://127.0.0.1:8000/getPlanfiedchallenges/')
+          .get('http://127.0.0.1:8000/getplanifiedJob/')
           .then((response) => {
             const chs=response.data
             const chId = this.$route.params.challengeId;
             this.Challenge =chs.find(challenge => challenge.id == chId);
             
-            console.log( this.Challenge, this.$store.state.Planfiedchallenges)
+            console.log( this.Challenge, this.$store.state.Planfiedjobs)
             this.participants=this.Challenge.participate
           }
           )

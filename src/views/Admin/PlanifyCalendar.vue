@@ -3,7 +3,7 @@
     <div class="video-wrapper">
       <video src="../../assets/hi2.mp4" autoplay loop muted style="position: fixed; z-index: -1;"></video>
     </div>
-    <AdminNavBar style="margin-bottom: 10px;"/>
+    <AdminNavbar style="margin-bottom: 10px;"/>
     <CalendarComp />
     <div style="text-align: center;">
       <router-link id="planify-new-challenge" class="btn btn-primary" to="/admin/schedule/challenges">planify new challenge</router-link> 
@@ -20,7 +20,7 @@
 
 <script>
 import CalendarComp from '@/components/CalendarComp.vue';
-import AdminNavBar from '@/components/AdminNavBar.vue';
+import AdminNavbar from '@/components/AdminNavbar.vue';
 
 //import { AOS } from 'aos';
 
@@ -29,7 +29,7 @@ export default {
   name: 'AboutView',
   components: {
     CalendarComp,
-    AdminNavBar
+    AdminNavbar
   },
   beforeCreate() {
             if(this.$store.state.account.role!='admin'){

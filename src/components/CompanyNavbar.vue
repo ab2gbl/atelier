@@ -4,7 +4,7 @@
       <div class="nav-links" id="navlinks">
         <i class="fa fa-times" onclick="hidemenu()"></i>
         <ul>
-          <router-link :to="{ path: '/admin/home' }">
+          <router-link :to="{ path: '/company/home' }">
             <li>
               <span>HOME</span>
             </li>
@@ -14,16 +14,16 @@
               <span>PATHS</span>
             </li>
           </router-link>
-          <router-link :to="{ path: '/admin/schedule' }">
+          <router-link :to="{ path: '/company/jobs' }">
             <li>
-            <span>SCHEDULE</span>
+              <span>MY JOBS</span>
             </li>
           </router-link>
-          <a href="http://127.0.0.1:8000/admin/">
+          <router-link :to="{ path: '/developer/challenges' }">
             <li>
-              <span>DATA</span>
+            <span>CHALLENGES</span>
             </li>
-            </a>
+          </router-link>
           <router-link :to="{ name: 'Login' }">
             <li href="Login" @click="logout()">
               <span>LOGOUT</span>

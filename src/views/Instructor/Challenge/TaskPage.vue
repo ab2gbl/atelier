@@ -497,7 +497,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
  .container {
     max-width: 600px;
     margin-top: 50px;

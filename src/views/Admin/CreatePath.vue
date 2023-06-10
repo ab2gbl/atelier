@@ -68,15 +68,13 @@
           .then(response => {
              const pathId = response.data.id;
              console.log(pathId)
+             this.$router.push({path: '/paths'})
         // Pass the challengeId to the tasks page
           })
           .catch(error => {
             console.log(error);
           })  
   
-        const forms = JSON.parse(localStorage.getItem('forms')) || []
-        forms.push({ image: this.previewUrl, name: this.name, descreption: this.descreption, points: this.points, max_teamsize: this.max_teamsize })
-        localStorage.setItem('forms', JSON.stringify(forms))
   
       }
     }
