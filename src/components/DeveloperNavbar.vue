@@ -24,6 +24,16 @@
               <span>JOBS</span>
             </li>
           </router-link>
+          <router-link :to="{ path: '/schedule' }">
+            <li>
+            <span>SCHEDULE</span>
+            </li>
+          </router-link>
+          <router-link :to="{ path: '/developer/leaderboard' }">
+            <li>
+            <span>LEADERBOARD</span>
+            </li>
+          </router-link>
           <router-link :to="{ name: 'Login' }">
             <li href="Login" @click="logout()">
               <span>LOGOUT</span>

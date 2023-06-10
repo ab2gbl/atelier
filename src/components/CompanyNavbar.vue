@@ -19,9 +19,14 @@
               <span>MY JOBS</span>
             </li>
           </router-link>
-          <router-link :to="{ path: '/developer/challenges' }">
+          <router-link :to="{ path: '/company/planifiedjobs' }">
             <li>
-            <span>CHALLENGES</span>
+            <span>JOBS</span>
+            </li>
+          </router-link>
+          <router-link :to="{ path: '/schedule' }">
+            <li>
+            <span>SCHEDULE</span>
             </li>
           </router-link>
           <router-link :to="{ name: 'Login' }">

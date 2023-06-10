@@ -1,0 +1,337 @@
+<!-- eslint-disable vue/multi-word-component-names -->
+<template>
+    <div id="bdy">
+        <main id="challenges">
+          <InstructorNavbar />
+          
+          <div v-for="challenge in challenges" :key="challenge.id" class="challenge">
+            <img :src="challenge.image_url" />
+            <div class="challenge-content">
+              <h2 class="challenge-name">{{ challenge.name }}</h2>
+              <p class="challenge-description">{{ challenge.descreption }}</p>
+              <div class="challenge-info">
+                <span class="points">Max Participants: {{ challenge.max_teamsize }}</span>
+                <a href="#" class="participate-btn" @click="showChallengeForm(challenge)" >More info</a>
+              </div>
+            </div>
+          </div>
+      
+          <transition name="fade">
+          <div v-if="showModal" class="modal">
+            <div class="modal-content">
+              <span class="close" @click="closeChallengeForm">&times;</span>
+              <img :src="selectedChallenge.image_url" />
+              <h2 class="challenge-name">{{ selectedChallenge.name }}</h2>
+              <p class="challenge-description">{{ selectedChallenge.descreption }}</p>
+              <p class="challenge-description">start: {{ displayTime(selectedChallenge.start_date) }}</p>
+              <p class="challenge-description">end: {{ displayTime(selectedChallenge.end_date) }}</p>
+              
+              <div class="challenge-info">
+                <span class="points">Max Participants: {{ selectedChallenge.max_teamsize }}</span>
+              </div>
+              <template v-if="getTime(selectedChallenge.start_date,selectedChallenge.end_date)=='register'" >
+                <button class="disabled-btn" >Pending</button>
+              </template>
+              <template v-else-if="getTime(selectedChallenge.start_date,selectedChallenge.end_date)=='finished'">
+                <button  class="disabled-btn" disabled>Finished</button>
+                
+                <button  @click="leader(selectedChallenge.id)" class="register-btn"> Leaderboard </button>
+                </template>
+              <template v-else-if="getTime(selectedChallenge.start_date,selectedChallenge.end_date)=='started'" >
+                <button class="disabled-btn" disabled> started </button>
+                
+                <button @click="leader(selectedChallenge.id)" class="register-btn"> Leaderboard </button>
+              </template>
+              
+              <!-- Add your form content here -->
+              <div v-if="showSuccessMessage" class="success-message">
+                You have successfully registered for the challenge.
+              </div>
+            </div>
+            
+        
+          </div>
+      
+        </transition>
+        
+        </main>
+      </div>
+    </template>
+    
+    <script>
+    import axios from 'axios';
+    //import router from '@/router';
+    import InstructorNavbar from '@/components/InstructorNavbar.vue'
+    
+    export default {
+      beforeCreate(){
+        if(this.$store.state.account.role!='instructor'){
+          if(this.$store.state.account.role){
+            this.$router.push('/'+this.$store.state.account.role+'/home');}
+          else{
+            this.$router.push('/login');}
+        }
+      },
+      components: {InstructorNavbar
+      },
+      data() {
+        return {
+          challenges: [],
+          showModal: false,
+          selectedChallenge: null,
+          showSuccessMessage: false,
+          currentTime: "",
+          isDisabled: false,
+          registerClass: "register-btn"
+        };
+      },
+      mounted() {
+        this.fetchChallenges();
+        this.getCurrentTime();
+        //setInterval(this.getCurrentTime, 1000);
+        
+      },
+      methods: {
+        fetchChallenges() {
+          axios
+            .get('http://127.0.0.1:8000/getPlanfiedchallenges/')
+            .then((response) => {
+              this.challenges = response.data;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        },
+        showChallengeForm(challenge) {
+          this.selectedChallenge = challenge;
+          this.showModal = true;
+        },
+        closeChallengeForm() {
+          this.showModal = false;
+          this.registerClass= "register-btn"
+          this.isDisabled=false
+        },
+        getCurrentTime() {
+          const now = new Date();
+          this.currentTime = now.toISOString();
+        },
+        getTime(start,end){
+          if(this.currentTime < start)
+            return "register"
+          else{ 
+            if (this.currentTime > end)
+              return "finished"
+            else if (this.currentTime > start && this.currentTime < end)
+              return "started"
+          }  
+        },
+        displayTime(Time){
+          
+          const dateTime = new Date(Time);
+          const formattedDateTime = dateTime.toLocaleString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          });
+  
+          return formattedDateTime;
+        },
+        
+        leader(id){
+            this.$router.push({path: '/developer/challenge/'+id+'/leaderboard'})
+        }
+  
+    }
+    };
+    </script>
+    <style scoped>
+    #bdy{
+      min-height: 100vh;
+      background-color: #043e70;
+    }
+    
+    #challenges {
+      font-family: Arial, sans-serif;
+    }
+    
+    header {
+      background-color: #1d2c4f;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 36px;
+      margin: 0;
+    }
+    
+    main {
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    
+    .challenge {
+      width: calc(33.33% - 20px);
+      margin-bottom: 30px;
+      background-color: #fff;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    
+    .challenge:hover {
+      transform: translateY(-5px);
+    }
+    
+    .challenge img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      height: 200px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+    
+    .challenge-content {
+      padding: 20px;
+    }
+    
+    h2 {
+      font-size: 24px;
+      margin: 0 0 10px 0;
+    }
+    
+    p {
+      margin: 0;
+      line-height: 1.6;
+    }
+    
+    .challenge-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    
+    .points {
+      font-size: 16px;
+      color: #555;
+    }
+    
+    .team {
+      font-size: 16px;
+      color: #555;
+    }
+    
+    .participate-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #1d2c4f;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .participate-btn:hover {
+      background-color: #162244;
+    }
+    .success-message {
+  
+     margin-top: 5px;
+    background-color: #32a852;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+  }
+  
+    .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.667);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-content {
+      width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 600px;
+    text-align: center;
+  }
+  
+  .modal-content img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    height: 200px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  
+  .modal-content h2 {
+    font-size: 24px;
+    margin: 0 0 10px 0;
+  }
+  
+  .modal-content p {
+    margin: 0;
+    line-height: 1.6;
+  }
+  .close {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    font-size: 24px;
+    color: #aaa;
+    cursor:pointer 
+  }
+  .fade-enter-active,
+  .fade-leave-active {
+  transition: opacity 1.2s;
+  }
+  
+  .fade-enter,
+  .fade-leave-to {
+  opacity: 0;
+  }
+  .register-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #1d2c4f;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+  .disabled-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color: #1d2c4f;
+    border: #1d2c4f solid ;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+  
+  .register-btn:hover {
+    background-color: #162244;
+  }
+  
+    </style>

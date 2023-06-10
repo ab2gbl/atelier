@@ -49,6 +49,11 @@
                 </div>
             </div>
         </div>
+        <router-link :to="{ path: '/developer/home/' }">
+            <div class="btn">
+              <span id="leadetboard">Finish</span>
+            </div>
+          </router-link>
       </div>
     </div>    
   </template>

@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div id="bdy">
-    <InstructorNavbar />
+    <CompanyNavbar />
       <div>
         <div class="app">
       
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import InstructorNavbar from '@/components/InstructorNavbar'
+import CompanyNavbar from '@/components/CompanyNavbar'
   
 //import axios from 'axios';
 export default {
@@ -57,7 +57,7 @@ export default {
     };
   },
   components:{
-    InstructorNavbar
+    CompanyNavbar
   },
   computed: {
     forms() {

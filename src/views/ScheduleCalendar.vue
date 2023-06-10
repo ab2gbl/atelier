@@ -2,7 +2,12 @@
     <div class="">
       <div class="video-wrapper">
         <video src="@/assets/hi2.mp4" autoplay loop muted style="position: fixed; z-index: -1;"></video>
-      </div>
+      </div> 
+      <DeveloperNavbar v-if="this.$store.state.account.role=='developer'"/>
+      <InstructorNavbar v-else-if="this.$store.state.account.role=='instructor'"/>
+      <CompanyNavbar v-else-if="this.$store.state.account.role=='company'"/>
+
+     
       <CalendarComp />
       
       
@@ -14,11 +19,18 @@
   <script>
   import CalendarComp from '@/components/CalendarComp.vue';
   
+  import DeveloperNavbar from '@/components/DeveloperNavbar'
+  import InstructorNavbar from '@/components/InstructorNavbar'
+  import CompanyNavbar from '@/components/CompanyNavbar.vue'
+  
   
   export default {
     name: 'AboutView',
     components: {
-      CalendarComp
+      CalendarComp,
+      DeveloperNavbar,
+      InstructorNavbar,
+      CompanyNavbar,
     },
     beforeCreate() {
       if(!this.$store.state.account.role){

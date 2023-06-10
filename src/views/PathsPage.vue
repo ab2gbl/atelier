@@ -25,11 +25,13 @@
           </div>
         </div>
       </section>
-      <router-link :to="{ path: '/admin/createpath' }">
-            <div class="btn">
-              <span id="leadetboard">NEW PATH</span>
-            </div>
-          </router-link>
+      <template v-if="this.$store.state.account.role=='admin'">
+        <router-link :to="{ path: '/admin/createpath' } ">
+              <div class="btn">
+                <span id="leadetboard">NEW PATH</span>
+              </div>
+        </router-link>
+      </template>
     </main>
     
   </div>

@@ -54,6 +54,11 @@
               <span id="leadetboard">Leaderbord</span>
             </div>
           </router-link>
+          <router-link :to="{ path: '/developer/home/' }">
+            <div class="btn">
+              <span id="leadetboard">Finish</span>
+            </div>
+          </router-link>
       </div>
     </div>    
   </template>
@@ -248,6 +253,7 @@
   font-size: 16px;
   transition: background-color 0.3s ease;
   margin-left: 50%;
+  margin-bottom:2px ;
   transform: translate(-50%);
 }
 

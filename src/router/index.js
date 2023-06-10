@@ -102,6 +102,12 @@ const routes = [
     params: true
   },
   {
+    path: '/developer//leaderboard',
+    name: 'GeneraleLeaderboard',
+    component: () => import('../views/Developer/GeneraleLeaderboard.vue'),
+    params: true
+  },
+  {
     path: '/developer/job/:challengeId/leaderboard',
     name: 'JobLeaderboard',
     component: () => import('../views/Developer/JobLeaderboard.vue'),
@@ -146,6 +152,11 @@ const routes = [
     path: '/company/jobs',
     name: 'MyJobs',
     component: () => import('../views/Company/JobsPage.vue')
+  },
+  {
+    path: '/company/planifiedjobs',
+    name: 'MyPJobs',
+    component: () => import('../views/Company/PlanifiedJobs.vue')
   },
   {
     path: '/company/form',
@@ -220,7 +231,11 @@ const routes = [
     component: () => import('../views/Instructor/Cours/TaskPage.vue'),
     props: true
   },
-
+  {
+    path: '/instructor/planifiedchallenges',
+    name: 'MyPlanifiedChallenges',
+    component: () => import('../views/Instructor/PlanifiedChallenges.vue')
+  },
 
 
   {

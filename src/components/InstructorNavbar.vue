@@ -19,9 +19,14 @@
               <span>MY CHALLENGES</span>
             </li>
           </router-link>
-          <router-link :to="{ path: '/developer/challenges' }">
+          <router-link :to="{ path: '/instructor/planifiedchallenges' }">
             <li>
             <span>CHALLENGES</span>
+            </li>
+          </router-link>
+          <router-link :to="{ path: '/schedule' }">
+            <li>
+            <span>SCHEDULE</span>
             </li>
           </router-link>
           <router-link :to="{ name: 'Login' }">
