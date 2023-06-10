@@ -63,11 +63,7 @@
 import axios from 'axios';
 export default {
   beforeCreate(){
-<<<<<<< HEAD
     if(this.$store.state.account.role!='company' || !this.$store.state.account.id){
-=======
-    if(this.$store.state.account.role!='instructor' || !this.$store.state.account.id){
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
         if(this.$store.state.account.role){
           this.$router.push('/'+this.$store.state.account.role+'/home');}
         else{

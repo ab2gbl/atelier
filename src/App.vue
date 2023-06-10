@@ -15,5 +15,10 @@ export default {
   }
 }
 </script>
+
 <style >
+#app{
+    background-color: #043e70;
+    min-height: 100vh;
+}
 </style>

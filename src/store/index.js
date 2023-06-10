@@ -52,14 +52,11 @@ export default createStore({
       });
       
     },
-<<<<<<< HEAD
     GetPlanfiedjobs_M(state) {
       axios.get('http://127.0.0.1:8000/getplanifiedJob/').then(resp => {
         state.Planfiedjobs = resp.data;
       });
     },
-=======
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
     GetNonPlanfiedjobs_M(state) {
       axios.get('http://127.0.0.1:8000/getnonplanifiedJob/').then(resp => {
         state.NonPlanfiedjobs = resp.data;
@@ -137,13 +134,10 @@ export default createStore({
     GetNonPlanfiedchallenges({ commit }) {
       commit('GetNonPlanfiedchallenges_M');
     },
-<<<<<<< HEAD
     
     GetPlanfiedjobs({ commit }) {
       commit('GetPlanfiedjobs_M');
     },
-=======
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
     GetNonPlanfiedjobs({ commit }) {
       commit('GetNonPlanfiedjobs_M');
     },

@@ -1,11 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-<<<<<<< HEAD
     <main id="challenges">
       <DeveloperNavbar />
-=======
-    <main>
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
       
       <div v-for="challenge in challenges" :key="challenge.id" class="challenge">
         <img :src="challenge.image_url" />
@@ -61,10 +57,7 @@
   <script>
   import axios from 'axios';
   import router from '@/router';
-<<<<<<< HEAD
   import DeveloperNavbar from '@/components/DeveloperNavbar.vue'
-=======
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
   
   export default {
     beforeCreate(){
@@ -75,11 +68,8 @@
           this.$router.push('/login');}
       }
     },
-<<<<<<< HEAD
     components: {DeveloperNavbar
     },
-=======
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
     data() {
       return {
         challenges: [],
@@ -203,17 +193,9 @@
   <style scoped>
   
   
-<<<<<<< HEAD
   #challenges {
     font-family: Arial, sans-serif;
     background-color: #043e70;
-=======
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f3f3f3;
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
   }
   
   header {

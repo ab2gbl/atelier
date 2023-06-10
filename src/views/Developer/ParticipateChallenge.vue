@@ -1,10 +1,6 @@
 <template>
-<<<<<<< HEAD
     <div v-if="challengeLoaded" id="main">
       <DeveloperNavbar/>
-=======
-    <div v-if="challengeLoaded">
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
       <div v-if="Challenge" class="challenge">
         <div class="task" v-for="i in Challenge.task" :key="i.tasknumber">
             <div class="task-head">
@@ -53,7 +49,6 @@
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
         
           <router-link :to="{ path: '/developer/challenge/'+this.$route.params.challengeId+'/leaderboard' }">
             <div class="btn">
@@ -62,24 +57,16 @@
           </router-link>
       </div>    
     </div>
-=======
-      </div>
-    </div>    
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
   </template>
   
   <script>
  import router from '@/router';
  import axios from 'axios';
-<<<<<<< HEAD
  import DeveloperNavbar from '@/components/DeveloperNavbar'
   export default {
     components:{
       DeveloperNavbar
     },
-=======
-  export default {
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
     data() {
       return {
         challengeLoaded: false,
@@ -211,14 +198,11 @@
             .then(() => {
               // Handle the response if needed
               console.log("correct answer")
-<<<<<<< HEAD
               axios.put("http://127.0.0.1:8000/filalparticipate/"+ this.participate.id+"/").then(() => {
                 console.log("time updated")
               }).catch((error) => {
                 console.error(error.response.data.message);
               });
-=======
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
             })
             .catch((error) => {
               alert(error.response.data.message);
@@ -246,13 +230,10 @@
   </script>
   <style scoped>
   @import '@fortawesome/fontawesome-free/css/all.css';
-<<<<<<< HEAD
   #main{
     background-color: #043e70;
     min-height: 100vh;
   }
-=======
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
 
 .challenge{
   align-content: center;
@@ -265,7 +246,6 @@
   width: 75%;
   border: #212c42 solid 1px;
 }
-<<<<<<< HEAD
 #leadetboard{
   color: #fff;
 
@@ -288,8 +268,6 @@
     text-decoration: none;
     font-size: 17px;
   }
-=======
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
 .task-head{
   border-radius: 5px 5px 0 0;
   display: flex;
@@ -314,10 +292,7 @@
 }
 .task-body{
   padding: 5px 10px ;
-<<<<<<< HEAD
   background-color: rgba(255, 255, 255, 0.8) ;
-=======
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
 }
 .title {
   font-size: 18px;
