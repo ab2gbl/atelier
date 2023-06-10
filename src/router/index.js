@@ -96,6 +96,7 @@ const routes = [
     params: true
   },
   {
+<<<<<<< HEAD
     path: '/developer/challenge/:challengeId/leaderboard',
     name: 'ChallengeLeaderboard',
     component: () => import('../views/Developer/ChallengeLeaderboard.vue'),
@@ -103,11 +104,14 @@ const routes = [
   },
 
   {
+=======
+>>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
     path: '/developer/challenges',
     name: 'ChallengesPage',
     component: () => import('../views/Developer/ChallengesPage.vue'),
     params: true
   },
+<<<<<<< HEAD
   {
     path: '/developer/jobs',
     name: 'JobOffers',
@@ -125,6 +129,9 @@ const routes = [
     name: 'ParticipateCourses',
     component: () => import('../views/Developer/ParticipateCours.vue')
   },
+=======
+  
+>>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
   {
     path: '/developer/schedule',
     redirect: '/schedule'

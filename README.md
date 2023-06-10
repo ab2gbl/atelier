@@ -1,24 +1,10 @@
 # atelier
+ 
+tools
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+npm install v-calendar@next @popperjs/core
+npm i bootstrap 
+npm i axios
+npm install element-plus  
+npm install aos  
+npm install @fortawesome/fontawesome-free

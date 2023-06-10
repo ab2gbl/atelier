@@ -2,7 +2,28 @@
 <template>
     <div>
         <section class="header">
+<<<<<<< HEAD
         <DeveloperNavbar />
+=======
+            <nav>
+                <img src="../../assets/a.png" >
+                <div class="nav-links" id="navlinks">
+                    <i class="fa fa-times" onclick="hidemenu()"></i>
+                    <ul>
+                        <li><a href="">HOME</a></li> 
+                        <li><router-link :to="{ path: '/developer/challenges' }">CHALLENGES</router-link></li> 
+                        <li><a href="#places">PATH</a></li> 
+                        <li><a href="#contact">ABOUT</a></li> 
+                        
+                        <li href="Login" @click="logout()">
+                            <router-link :to="{ name: 'Login' }"><span>LOGOUT</span></router-link>
+                        </li>
+                        
+                    </ul>
+                </div>
+            <i class="fa fa-bars" onclick="showmenu()"></i>
+            </nav>
+>>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
             <div class="icon">
             <img class="im" src="../../assets/li.png" alt="">
             </div>

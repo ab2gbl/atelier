@@ -4,6 +4,7 @@
     <div class="video-wrapper">
       <video src="@/assets/ji.mp4" autoplay loop muted></video>
     </div>
+    <h1>Upload a Form</h1>
     <div class="form">      
       <div class="form-group">  
         <label for="image">Image:</label>
@@ -26,35 +27,17 @@
         <label for="descreption">Description:</label>
         <textarea id="descreption" v-model="descreption"></textarea>
       </div>
-
       <div class="form-group">
-        <label for="skillsrequirment">Skills requirment:</label>
-        <textarea id="skillsrequirment" v-model="skillsrequirment"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="jobbenifits">Job benifits:</label>
-        <textarea id="jobbenifits" v-model="jobbenifits"></textarea>
+        <label for="points">Points:</label>
+        <input type="text" id="points" v-model="points" />
       </div>
       <div class="form-group">
-        <label for="employment_nedded">Employment nedded:</label>
-        <input type="number" id="employment_nedded" v-model="employment_nedded" />
+        <label for="max_teamsize">Max Team Members:</label>
+        <input type="text" id="max_teamsize" v-model="max_teamsize" />
       </div>
-      
-      <div class="form-group">
-        <label for="max_teamsize">Max participants:</label>
-        <input type="number" id="max_teamsize" v-model="max_teamsize" />
-      </div>
-      <div  class="form-group">
-        <label class="label">Rules: </label>
-        <div v-for="(rule, id) in rules" :key="rule.id" class="task">
-          <div class="input-container">
-            <input type="text" v-model="rule.rule" class="input">
-            <button type="button" @click="removeRule(id)" class="remove-btn">Remove</button>
-          </div>
-        </div>
-        <button type="button" @click="addRule" class="add-btn">Add rule</button>
-      </div>
-      <button class="next-btn" @click="saveForm">Next</button> 
+    
+      <button class="next-btn" @click="saveForm">Next</button>
+    
     </div>
   </div>
 </template>
@@ -62,55 +45,19 @@
 <script>
 import axios from 'axios';
 export default {
-  beforeCreate(){
-<<<<<<< HEAD
-    if(this.$store.state.account.role!='company' || !this.$store.state.account.id){
-=======
-    if(this.$store.state.account.role!='instructor' || !this.$store.state.account.id){
->>>>>>> 34a0eb8001815641a410fda1454208d7f1803629
-        if(this.$store.state.account.role){
-          this.$router.push('/'+this.$store.state.account.role+'/home');}
-        else{
-          this.$router.push('/login');}
-    }
-  },
   data() {
     return {
-      name: '',
       image: '',
-      descreption: '',
-      created_by:this.$store.state.account.id,
-      points: 0,
-      max_teamsize: '',
-      challenge_type: "job",
-      job: null,
-
-      skillsrequirment: '',
-      jobbenifits:'',
-      employment_nedded:'',
-
-      rules:[{id:0,rule:''}],
-      idrule:0,
-
       previewUrl: null,
+      name: '',
+      descreption: '',
+      points: '',
+      max_teamsize: '',
+      challenge_type: "challenge",
+      job: null
     }
   },
   methods: {
-    addRule() {
-      this.idrule++
-      const newRule = {
-        id: this.idrule,
-        rule: ""
-      };
-      this.rules.push(newRule);
-    },
-    removeRule(index) {
-      this.rules.splice(index, 1);
-      for (let i=index; i<this.rules.length; i++){
-        this.rules[i].id--
-      } 
-      this.idrule--
-    },
 
     previewImage() {
       const file = this.$refs.image.files[0]
@@ -124,60 +71,26 @@ export default {
         alert('Please fill in all fields.')
         return
       }
-      const formData0 = new FormData();
-      formData0.append('name', this.name);
-      formData0.append('descreption', this.descreption);
-      formData0.append('skillsrequirment', this.skillsrequirment);
-      formData0.append('jobbenifits', this.jobbenifits);
-      formData0.append('employment_nedded', this.employment_nedded);
-      formData0.append('image', this.image);
-      axios.post('http://127.0.0.1:8000/createjoboffer/', formData0)
+      const formData = new FormData();
+      formData.append('image', this.image);
+      formData.append('name', this.name);
+      formData.append('descreption', this.descreption);
+      formData.append('points', this.points);
+      formData.append('max_teamsize', this.max_teamsize);
+      formData.append('challenge_type', this.challenge_type);
+      
+      console.log(formData)
+      
+      axios.post('http://127.0.0.1:8000/createchalenges/', formData)
         .then(response => {
-          this.job=response.data.id
-
-          
-          const formData = new FormData();
-          formData.append('image', this.image);
-          formData.append('name', this.name);
-          formData.append('descreption', this.descreption);
-          formData.append('points', this.points);
-          formData.append('max_teamsize', this.max_teamsize);
-          formData.append('challenge_type', this.challenge_type);
-          formData.append('created_by', this.created_by);
-          
-          formData.append('job', this.job);
-          
-          
-          
-          
-          axios.post('http://127.0.0.1:8000/createchalenges/', formData)
-          .then(response => {
-            const challengeId = response.data.id;
-            console.log(challengeId)
-        // Pass the challengeId to the tasks page
-            for (let rule of this.rules){
-                const payload = {
-                  rule: rule.rule,
-                  challenges: challengeId
-                };
-                console.log(rule,payload)
-                axios.post('http://127.0.0.1:8000/creatrules/', payload)
-            } 
-              this.$router.push({ name: 'Companytasks', params: { challengeId: challengeId } });
-          })
-          .catch(error => {
-            console.log(error);
-          })
-
+           const challengeId = response.data.id;
+           console.log(challengeId)
+      // Pass the challengeId to the tasks page
+            this.$router.push({ name: 'tasks', params: { challengeId: challengeId } });
         })
         .catch(error => {
           console.log(error);
-        })
-
-
-      
-
-
+        })  
 
       const forms = JSON.parse(localStorage.getItem('forms')) || []
       forms.push({ image: this.previewUrl, name: this.name, descreption: this.descreption, points: this.points, max_teamsize: this.max_teamsize })
@@ -342,22 +255,5 @@ textarea {
 
 .next-btn:hover {
   background-color: #1565c0;
-}
-.add-btn{
-  width: fit-content;
-  margin-left: 50%;
-  transform: translate(-50%, 0);
-}
-.remove-btn,
-.add-btn,
-.next-btn {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
 }
 </style>
