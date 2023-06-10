@@ -8,7 +8,7 @@
         <label class="label">Task {{ index + 1 }}</label>
         <div class="input-container">
           <input type="text" v-model="task.name" class="input">
-          <button type="button" @click="removeTask(index)" class="remove-btn">Remove</button>
+          <button type="button" @click="removeTask(task.index)" class="remove-btn">Remove</button>
           <button type="button" @click="saveTask(task)" class="next-btn">Next</button>
         </div>
       </div>
@@ -22,16 +22,7 @@
 import axios from 'axios';
 
 export default {
-  beforeMount(){
-    console.log(this.$store.state.CreateC)
-    this.tasks = this.$store.state.CreateC.tasks.slice();
-    const lastTask = this.$store.state.CreateC.tasks[this.$store.state.CreateC.tasks.length - 1];
-    if (lastTask) {
-      this.id = lastTask.id;
-    }
-    this.index=this.$store.state.CreateC.tasks.length 
-    console.log(this.id ,this.index)
-  },
+  
   data() {
     return {
       tasks: [
@@ -44,52 +35,247 @@ export default {
       coursID: ""
     };
   },
+  beforeCreate(){
+    if(this.$store.state.account.role!='instructor' || !this.$store.state.account.id){
+        if(this.$store.state.account.role){
+          this.$router.push('/'+this.$store.state.account.role+'/home');}
+        else{
+          this.$router.push('/login');}
+    }
+    this.$store.dispatch("GetGamifiedCourses")
+    
+
+  },
+  computed:{
+    Cours(){
+      const challengeId = this.$route.params.coursId;
+      return this.$store.state.GamifiedCourses.find(cours => cours.id == challengeId);
+    }
+  },
+  beforeMount(){
+    
+    
+    
+    
+    this.tasks = this.$store.state.CreateC.tasks.slice();
+    const lastTask = this.$store.state.CreateC.tasks[this.$store.state.CreateC.tasks.length - 1];
+    if (lastTask) {
+      this.id = 0;
+    }
+    
+    //updatechallenge
+    axios.get('http://127.0.0.1:8000/creategamifiedcours/')
+        .then((response) => {
+          const chs=response.data
+          
+          
+          const coursId = this.$route.params.coursId;
+          console.log(chs)
+          this.Cours=chs.find(cours => cours.id == coursId);
+          this.index=this.Cours.task.length
+
+    //updatetasks
+        const tasksC=this.Cours.task
+        if (tasksC && tasksC.length > 0) {
+              this.tasks=[]
+              for (let i=0;i<tasksC.length;i++){
+                const taskField = {
+                  id: tasksC[i].id,
+                  index: tasksC[i].tasknumber,
+                  name: tasksC[i].name
+                };
+                this.tasks.push(taskField);
+              }
+          }
+        })
+        .catch((error) => {
+          console.error("Failed to fetch data:", error);
+        });
+  },
   mounted() {
-    this.coursID = this.$route.params.coursID; // Get the challengeId from the URL params
+    
+    
+    this.challengeId = this.$route.params.challengeId; // Get the challengeId from the URL params
+    //this.fetchChallengeData()
+
+  
+    
+    
+  },
+  updated() {
+    
+    },
+  beforeRouteLeave(){
+    this.fetchCoursData();
   },
   methods: {
+    fetchCoursData() {
+      axios.get('http://127.0.0.1:8000/creategamifiedcours/')
+        .then((response) => {
+          const chs=response.data
+          
+          const coursId = this.$route.params.coursId;
+          this.Cours=chs.find(cours => cours.id == coursId);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch data:", error);
+        });
+        this.fetchTasksList()
+
+    },
+    fetchTasksList(){
+      this.tasks=[]
+      const tasks=this.Cours.task
+      if (tasks && tasks.length > 0) {
+              for (let i=0;i<tasks.length;i++){
+                const taskField = {
+                  id: tasks[i].id,
+                  index: tasks[i].tasknumber,
+                  name: tasks[i].name
+                };
+                this.tasks.push(taskField);
+              }
+            }
+    },
     addTask() {
-      this.id++
       this.index++
       const newTask = {
-        id: this.id,
+        id: 0,
         index: this.index,
         name: ""
       };
       this.tasks.push(newTask);
     },
     removeTask(index) {
-      this.tasks.splice(index, 1);
-      for (let i=index+1; i<this.tasks.length; i++){
-        this.tasks[i].index--
+      const ch1=this.tasks.find(
+                  (task) => task.index ==index
+                );
+        const chId=ch1.id
+        
+      if(chId!==0){
+        axios.delete('http://127.0.0.1:8000/updatetask/'+chId+'/').then(response => {
+              console.log("deleted",response)
+              
+            }).catch(error => {
+              console.log(error);
+            }); 
       }
+      
+      this.tasks.splice(index-1, 1);
+      
+      for (let i=index-1; i<this.tasks.length; i++){
+        this.tasks[i].index--
+      } 
       this.index--
     },
     saveTask(task) {
+      for (let ttsk of this.tasks){
+        const isIt = this.Cours.task.some(
+                  (tsk) => tsk.id == ttsk.id
+                );
+        if(!isIt){
+          this.$store.state.CreateC.tasks=this.tasks
+          if (!ttsk.name) {
+            alert("Please enter a task name."+ttsk);
+            return;
+          }
 
-      this.$store.state.CreateC.tasks=this.tasks
-      if (!task.name) {
-        alert("Please enter a task name.");
-        return;
+          const payload = {
+            name: ttsk.name,
+            tasknumber: ttsk.index,
+            gamifiedcours: this.$route.params.coursId
+          };
+
+          axios.post('http://127.0.0.1:8000/creatTask/', payload).then(response => {
+              ttsk.id = response.data.id
+              if (ttsk.id==task.id){
+                task.id = response.data.id
+                this.$store.dispatch("GetGamifiedCourses")
+                const a=response.data.id
+                if (a!=0)
+                  this.$router.push({ name: 'Courstask-page', params: { taskId: a } });
+              }
+              
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }else{
+          const ch = this.Cours.task.find(
+                  (tsk) => tsk.id == ttsk.id
+                );
+          if (!(ttsk.name==ch.name && ttsk.index==ch.tasknumber)){
+            const payload = {
+              id: ttsk.id,
+              name: ttsk.name,
+              tasknumber: ttsk.index,
+            };
+            axios.put('http://127.0.0.1:8000/updatetask/'+ttsk.id+'/', payload).then(response => {
+              console.log("updated",response)
+              if (task.id!=0)
+                this.$router.push({ name: 'Courstask-page', params: { taskId: task.id } });
+            })
+            .catch(error => {
+              console.log(error);
+            });
+          }
+          else{
+            if (ttsk.id==task.id){
+              if(task.id!=0)
+                this.$router.push({ name: 'task-page', params: { taskId: task.id } });
+            }
+          }   
+        }
+
       }
-
-      const payload = {
-        name: task.name,
-        tasknumber: task.index,
-        gamifiedcours: this.coursID
-      };
-
-      axios.post('http://127.0.0.1:8000/creatTask/', payload)
-        .then(response => {
-          const taskId = response.data.id;
-          this.$router.push({ name: 'Courstask-page', params: { taskId: taskId } });
-        })
-        .catch(error => {
-          console.log(error);
-        });
     },
     submit(){
-      this.$router.push('/paths')
+      for (let ttsk of this.tasks){
+        const isIt = this.Cours.task.some(
+                  (tsk) => tsk.id == ttsk.id
+                );
+        if(!isIt){
+          this.$store.state.CreateC.tasks=this.tasks
+          if (!ttsk.name) {
+            alert("Please enter a task name."+ttsk);
+            return;
+          }
+          console.log(this.$route.params.coursId)
+
+          const payload = {
+            name: ttsk.name,
+            tasknumber: ttsk.index,
+            gamifiedcours: this.$route.params.coursId
+          };
+
+          axios.post('http://127.0.0.1:8000/creatTask/', payload).then(response => {
+              console.log(response)
+              
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }else{
+          const ch = this.Cours.task.find(
+                  (tsk) => tsk.id == ttsk.id
+                );
+          if (!(ttsk.name==ch.name && ttsk.index==ch.tasknumber)){
+            const payload = {
+              id: ttsk.id,
+              name: ttsk.name,
+              tasknumber: ttsk.index,
+            };
+            axios.put('http://127.0.0.1:8000/updatetask/'+ttsk.id+'/', payload).then(response => {
+              console.log("updated",response)
+            })
+            .catch(error => {
+              console.log(error);
+            });
+          }
+            
+        }
+      }
+      this.$router.push('/instructor/home')
     }
 
   }
@@ -97,7 +283,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 
 .video-wrapper {
   position: fixed;

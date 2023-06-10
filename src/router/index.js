@@ -76,6 +76,12 @@ const routes = [
     name: 'PlanifyChallenge',
     component: () => import('../views/Admin/PlanifyChallenge.vue')
   },
+  {
+    path: '/admin/schedule/jobs',
+    name: 'PlanifyJob',
+    component: () => import('../views/Admin/PlanifyJob.vue')
+  },
+
 
   // developer
   {
@@ -83,7 +89,42 @@ const routes = [
     name: 'DeveloperHome',
     component: () => import('../views/Developer/DeveloperHome.vue')
   },
-  
+  {
+    path: '/developer/challenge/:challengeId',
+    name: 'ParticipateChallenge',
+    component: () => import('../views/Developer/ParticipateChallenge.vue'),
+    params: true
+  },
+  {
+    path: '/developer/challenge/:challengeId/leaderboard',
+    name: 'ChallengeLeaderboard',
+    component: () => import('../views/Developer/ChallengeLeaderboard.vue'),
+    params: true
+  },
+
+  {
+    path: '/developer/challenges',
+    name: 'ChallengesPage',
+    component: () => import('../views/Developer/ChallengesPage.vue'),
+    params: true
+  },
+  {
+    path: '/developer/jobs',
+    name: 'JobOffers',
+    component: () => import('../views/Developer/job/JobsPage.vue'),
+    params: true
+  },
+  {
+    path: '/developer/job/:challengeId',
+    name: 'ParticipateJob',
+    component: () => import('../views/Developer/job/ParticipateJob.vue'),
+    params: true
+  },
+  {
+    path: '/paths/:coursid/:challengeId',
+    name: 'ParticipateCourses',
+    component: () => import('../views/Developer/ParticipateCours.vue')
+  },
   {
     path: '/developer/schedule',
     redirect: '/schedule'
@@ -94,6 +135,30 @@ const routes = [
     name: 'CompanyHome',
     component: () => import('../views/Company/CompanyHome.vue')
   },
+
+  /* {
+    path: '/company/Joboffers',
+    name: 'CompanyChallenges',
+    component: () => import('../views/Instructor/ChallengesPage.vue')
+  }, */
+  {
+    path: '/company/form',
+    name: 'CompanyForm',
+    component: () => import('../views/Company/FormPage.vue')
+  },
+  {
+    path: '/company/tasks/:challengeId',
+    name: 'Companytasks',
+    component: () => import('../views/Company/TaskForm.vue')
+  },
+  {
+    path: '/company/task-page/:challengeId/:taskId',
+    name: 'Companytask-page',
+    component: () => import('../views/Company/TaskPage.vue'),
+    props: true
+  },
+  
+  
   {
     path: '/company/schedule',
     redirect: '/schedule'

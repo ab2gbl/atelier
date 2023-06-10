@@ -1,13 +1,15 @@
 <template>
-    <div>
         <main>
+          <DeveloperNavbar/>
             <section id="Courses-list">
             <h2>introduction to Cybersecurity</h2>
             <ul>
-                <li v-for="cours in GamifiedCourses" :key="cours.id">
+                <li v-for="cours in GamifiedCourses" :key="cours.id" id="cours">
                 <img :src="cours.image" alt="Course Image">
                 <div class="course-info">
-                    <a href=".@/assets/llll/ll.html"><h3>{{cours.name}}</h3></a>
+                  
+                    <h3 ><router-link :to="{ path: '/paths/'+this.$route.params.id+'/'+cours.id+'/' }">{{cours.name}}</router-link></h3>
+                    
                     <p>{{ cours.descreption }}</p>
                 </div>
                 </li>
@@ -15,13 +17,18 @@
             </section>
         </main>
 
-    </div>
     
 </template>
 <script>
+import DeveloperNavbar from '@/components/DeveloperNavbar'
 export default {
     beforeCreate(){
       this.$store.dispatch('GetGamifiedCourses');
+      if (this.$store.state.account.role=='instructor')
+        this.$route.push({path: '/instructor/paths/'+this.$route.params.id})
+    },
+    components:{
+      DeveloperNavbar
     },
     data(){
       return{
@@ -46,6 +53,9 @@ body {
     padding: 0;
     background-color: #f3f3f3;
   }
+  #cours{
+    height: 150px;
+  }
   
   header {
     background-color: #1d2c4f;
@@ -56,8 +66,9 @@ body {
   
   main {
     padding: 20px;
-  }
-  
+    background-color:#043e70 ;
+    min-height: 100vh;
+  } 
   h2 {
     font-size: 28px;
     margin-bottom: 20px;

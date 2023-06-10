@@ -4,41 +4,7 @@
       <video src="../../assets/hi2.mp4" autoplay loop muted style="position: fixed; z-index: -1;"></video>
     </div>
     <AdminNavBar style="margin-bottom: 10px;"/>
-    
-    <div id="calendar">
-      <VCalendar   />
-      <DatePicker v-model="date" :attributes="attributes" expanded />
-        
-    </div>
-    <div class="challenges-of-day">
-      <div class="head">
-        <span>{{ formatDate(date) }}</span>
-      </div>
-      <div class="content">
-        <ul>
-          <li v-if="Pchallenges().length != 0" style="text-align: center; color: blue;">
-            <div class="column1">name</div>
-            <div class="column2">
-              <span>start</span>
-            </div>
-            <div class="column2">
-              <span >end</span>
-            </div>
-          </li>
-          <li v-for="i in Pchallenges()" :key="i.id">
-            <div class="column1">{{ i.name }}</div>
-            <div class="column2">
-              <span v-if="StartComp(i.start_date)">00:00:00</span>
-              <span v-else>{{ i.start_date.slice(11, 19) }}</span>
-            </div>
-            <div class="column2">
-              <span v-if="EndComp(i.end_date)">23:59:59</span>
-              <span v-else>{{ i.end_date.slice(11, 19) }}</span>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <CalendarComp />
     <div style="text-align: center;">
       <router-link id="planify-new-challenge" class="btn btn-primary" to="/admin/schedule/challenges">planify new challenge</router-link> 
       <router-view/>
@@ -51,18 +17,16 @@
 
 
 <script>
-import { DatePicker } from 'v-calendar';
-import 'v-calendar/dist/style.css';
-import { ref, computed, onMounted } from 'vue';
-import { useStore } from 'vuex';
+import CalendarComp from '@/components/CalendarComp.vue';
 import AdminNavBar from '@/components/AdminNavBar.vue';
+
 //import { AOS } from 'aos';
 
 
 export default {
   name: 'AboutView',
   components: {
-    DatePicker,
+    CalendarComp,
     AdminNavBar
   },
   beforeCreate() {
@@ -73,100 +37,8 @@ export default {
                     this.$router.push('/login');}
             }
   },
-  methods: {
-    formatDate(date) {
-      if (!this.date) {
-        return ; 
-      }
-      return date.toLocaleDateString(undefined, {
-        weekday: 'short',
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      });
-    },
-    StartComp(ChallengeStart) {
-      const startDate = new Date(ChallengeStart);
-      return this.date > startDate;
-    },
-    EndComp(ChallengeEnd) {
-      const endDate = new Date(ChallengeEnd.split("T")[0]); // Extract only the date portion
-      const selectedDate = new Date(this.date.toISOString().split("T")[0]); // Extract only the date portion of this.date
-      return selectedDate.getTime() < endDate.getTime();
-    },
-    
-    Pchallenges() {
-      
-      if (!this.date) {
-        return []; 
-      }
-        const selectedChallenges = this.ch.filter(challenge => {
-        const startDate = new Date(challenge.start_date.split("T")[0]);
-        const endDate = new Date(challenge.end_date.split("T")[0]);
-        
-        const selectedDate = this.date;
-        return (
-          selectedDate >= startDate &&
-          selectedDate <= endDate
-        );
-      });
-      
-      return selectedChallenges;
-    }
-  },
-
-  setup() {
-    const store = useStore();
-    const ch = computed(() => store.state.Planfiedchallenges);
-
-    const date = ref(null);
-
-    const attributes = computed(() => [
-      // Attributes for ch
-      ...ch.value.map((challenge) => {
-        const startDate = new Date(challenge.start_date);
-        const endDate = new Date(challenge.end_date);
-        const isSameDate = startDate.toDateString() === endDate.toDateString();
-
-        return {
-          dates: { start: startDate, end: endDate },
-          ...(!isSameDate
-            ? {} // If start and end dates are the same, do not include the highlight property
-            : {
-              dot: {
-              color: challenge.color,
-              class: '',
-              }
-            }),
-          
-          ...(isSameDate
-            ? {} // If start and end dates are the same, do not include the highlight property
-            : {
-                highlight: {
-                  start: { fillMode: 'outline' },
-                  base: { fillMode: 'light' },
-                  end: { fillMode: 'outline' },
-                },
-              }),
-          popover: true,
-          customData: challenge,
-        };
-      }),
-    ]);
-
-
-    onMounted(() => {
-      store.dispatch('GetPlanfiedchallenges');
-    });
-    
-
-    return {
-      ch,
-      date,
-      attributes,
-    };
-  },
-};
+}
+  
 </script>
 
   <style scoped>

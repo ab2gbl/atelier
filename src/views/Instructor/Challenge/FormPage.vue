@@ -28,16 +28,20 @@
         <textarea id="descreption" v-model="descreption"></textarea>
       </div>
       <div class="form-group">
-        <label for="points">Points:</label>
-        <input type="text" id="points" v-model="points" />
-      </div>
-      <div class="form-group">
-        <label for="max_teamsize">Max Team Members:</label>
+        <label for="max_teamsize">Max participants:</label>
         <input type="text" id="max_teamsize" v-model="max_teamsize" />
       </div>
-    
-      <button class="next-btn" @click="saveForm">Next</button>
-    
+      <div  class="form-group">
+        <label class="label">Rules: </label>
+        <div v-for="(rule, id) in rules" :key="rule.id" class="task">
+          <div class="input-container">
+            <input type="text" v-model="rule.rule" class="input">
+            <button type="button" @click="removeRule(id)" class="remove-btn">Remove</button>
+          </div>
+        </div>
+        <button type="button" @click="addRule" class="add-btn">Add rule</button>
+      </div>
+      <button class="next-btn" @click="saveForm">Next</button> 
     </div>
   </div>
 </template>
@@ -45,19 +49,47 @@
 <script>
 import axios from 'axios';
 export default {
+  beforeCreate(){
+    if(this.$store.state.account.role!='instructor' || !this.$store.state.account.id){
+        if(this.$store.state.account.role){
+          this.$router.push('/'+this.$store.state.account.role+'/home');}
+        else{
+          this.$router.push('/login');}
+    }
+  },
   data() {
     return {
-      image: '',
-      previewUrl: null,
       name: '',
+      image: '',
       descreption: '',
-      points: '',
+      created_by:this.$store.state.account.id,
+      points: 0,
       max_teamsize: '',
       challenge_type: "challenge",
-      job: null
+      job: null,
+
+      rules:[{id:0,rule:''}],
+      idrule:0,
+
+      previewUrl: null,
     }
   },
   methods: {
+    addRule() {
+      this.idrule++
+      const newRule = {
+        id: this.idrule,
+        rule: ""
+      };
+      this.rules.push(newRule);
+    },
+    removeRule(index) {
+      this.rules.splice(index, 1);
+      for (let i=index; i<this.rules.length; i++){
+        this.rules[i].id--
+      } 
+      this.idrule--
+    },
 
     previewImage() {
       const file = this.$refs.image.files[0]
@@ -78,6 +110,8 @@ export default {
       formData.append('points', this.points);
       formData.append('max_teamsize', this.max_teamsize);
       formData.append('challenge_type', this.challenge_type);
+      formData.append('created_by', this.created_by);
+      
       
       console.log(formData)
       
@@ -86,6 +120,14 @@ export default {
            const challengeId = response.data.id;
            console.log(challengeId)
       // Pass the challengeId to the tasks page
+          for (let rule of this.rules){
+              const payload = {
+                rule: rule.rule,
+                challenges: challengeId
+              };
+              console.log(rule,payload)
+              axios.post('http://127.0.0.1:8000/creatrules/', payload)
+          } 
             this.$router.push({ name: 'tasks', params: { challengeId: challengeId } });
         })
         .catch(error => {
@@ -255,5 +297,22 @@ textarea {
 
 .next-btn:hover {
   background-color: #1565c0;
+}
+.add-btn{
+  width: fit-content;
+  margin-left: 50%;
+  transform: translate(-50%, 0);
+}
+.remove-btn,
+.add-btn,
+.next-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
 }
 </style>

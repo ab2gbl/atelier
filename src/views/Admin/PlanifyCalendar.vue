@@ -7,6 +7,8 @@
     <CalendarComp />
     <div style="text-align: center;">
       <router-link id="planify-new-challenge" class="btn btn-primary" to="/admin/schedule/challenges">planify new challenge</router-link> 
+      <router-link id="planify-new-challenge" class="btn btn-primary" to="/admin/schedule/jobs">planify new job offer</router-link> 
+      
       <router-view/>
     </div>
     

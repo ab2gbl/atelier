@@ -1,16 +1,11 @@
 <template>
-    <div>
-        <header>
-    <h1>Learning Paths</h1>
-  </header>
+    <div id="main">
+      <DeveloperNavbar/>
+      <header>
+        <h1>Learning Paths</h1>
+      </header>
   
- <!--  <nav>
-    <ul>
-      <li><a href="#" class="active" data-path="beginner">Beginner</a></li>
-      <li><a href="#" data-path="intermediate">Intermediate</a></li>
-      <li><a href="#" data-path="advanced">Advanced</a></li>
-    </ul>
-  </nav> -->
+ 
   
     <main>
       <section  id="beginner-path" v-for="path in paths" :key="path.id">
@@ -53,7 +48,11 @@
   
   <script>
   //  import axios from 'axios';
+  import DeveloperNavbar from '@/components/DeveloperNavbar'
   export default {
+    components:{
+      DeveloperNavbar
+    },
     beforeCreate(){
       this.$store.dispatch('GetPaths');
     },
@@ -88,12 +87,12 @@ body, h1, h2, p, ul, li {
   }
   
   header {
-    background-image: linear-gradient(to bottom right, #112d68, #1952a2);
     background-size: cover;
     background-position: center;
     color: #fff;
     padding: 60px;
     text-align: center;
+    margin-top: -70px ;
   }
   
   header h1 {
@@ -130,6 +129,10 @@ body, h1, h2, p, ul, li {
   
   main {
     margin: 20px;
+  }
+  #main{
+    background-color: #043e70;
+    min-height: 100vh;
   }
   
   section {

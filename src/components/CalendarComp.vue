@@ -14,17 +14,19 @@
       </div>
       <div class="content">
         <ul>
-          <li v-if="Pchallenges().length != 0" style="text-align: center; color: blue;">
-            <div class="column1">name</div>
+          <li v-if="Pchallenges().length != 0" style="text-align: center; ">
+            <div class="column1"><b> name </b></div>
             <div class="column2">
-              <span>start</span>
+              <span><b>start</b></span>
             </div>
             <div class="column2">
-              <span >end</span>
+              <span ><b>end</b></span>
             </div>
           </li>
           <li v-for="i in Pchallenges()" :key="i.id">
-            <div class="column1">{{ i.name }}</div>
+            <div v-if="i.challenge_type=='job'" class="column1 job-name" >{{ i.name }}</div>
+            <div v-else class="column1 challenge-name" >{{ i.name }}</div>
+            
             <div class="column2">
               <span v-if="StartComp(i.start_date)">00:00:00</span>
               <span v-else>{{ i.start_date.slice(11, 19) }}</span>
@@ -100,11 +102,16 @@ export default {
       return selectedChallenges;
     }
   },
-
   setup() {
     const store = useStore();
-    const ch = computed(() => store.state.Planfiedchallenges);
-
+    //const ch = computed(() => store.state.Planfiedchallenges+store.state.Planfiedjobs);
+    const ch = computed(() => {
+      const { Planfiedchallenges, Planfiedjobs } = store.state;
+      const challenges = Array.isArray(Planfiedchallenges) ? Planfiedchallenges : [];
+      const jobs = Array.isArray(Planfiedjobs) ? Planfiedjobs : [];
+      return [...challenges, ...jobs];
+    });
+    console.log(ch);
     const date = ref(null);
 
     const attributes = computed(() => [
@@ -113,6 +120,8 @@ export default {
         const startDate = new Date(challenge.start_date);
         const endDate = new Date(challenge.end_date);
         const isSameDate = startDate.toDateString() === endDate.toDateString();
+        const dotColor = challenge.challenge_type == 'job' ? 'red' : 'blue';
+
 
         return {
           dates: { start: startDate, end: endDate },
@@ -120,7 +129,7 @@ export default {
             ? {} // If start and end dates are the same, do not include the highlight property
             : {
               dot: {
-              color: challenge.color,
+              color: dotColor,
               class: '',
               }
             }),
@@ -128,10 +137,14 @@ export default {
           ...(isSameDate
             ? {} // If start and end dates are the same, do not include the highlight property
             : {
+                dot: {
+                  color: dotColor,
+                  class: '',
+                },
                 highlight: {
-                  start: { fillMode: 'outline' },
-                  base: { fillMode: 'light' },
-                  end: { fillMode: 'outline' },
+                  start: { fillMode: 'outline' ,color: dotColor},
+                  base: { fillMode: 'light' ,color: dotColor},
+                  end: { fillMode: 'outline' ,color: dotColor},
                 },
               }),
           popover: true,
@@ -143,6 +156,8 @@ export default {
 
     onMounted(() => {
       store.dispatch('GetPlanfiedchallenges');
+      store.dispatch('GetPlanfiedjobs');
+      
     });
     
 
@@ -236,6 +251,12 @@ export default {
  .vc-popover-content{
     display: none;
     
+  }
+  .challenge-name{
+    color: blue;
+  }
+  .job-name{
+    color:red;
   }
   
   </style>
